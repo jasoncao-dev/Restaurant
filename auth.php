@@ -5,16 +5,6 @@ else signin();
 
 function signup()
 { //Format: name;username;password
-    $user_info = array(
-        "name" => $_POST["name"],
-        "email" => $_POST["email"],
-        "phone" => $_POST["phone"],
-        "password" => password_hash($_POST["password"]),
-        "street" => $_POST["street"],
-        "city" => $_POST["city"],
-        "state" => $_POST["state"],
-        "zip" => $_POST["zip"]
-    );
 
     // check if the email is valid
     if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) die(message('error', 'Your email is invalid. <a href="signin.php">click here<a/>'));
@@ -45,10 +35,13 @@ function signup()
     fwrite($handle, $_POST['name'] . ';' . $_POST['username'] . ';' . password_hash($_POST['password'], PASSWORD_DEFAULT) . PHP_EOL);
     fclose($handle);
     //Write confirmation message and ask the user to sign in
-    session_start();
-    $_SESSION['name'] = $line[0];
-    $_SESSION['username'] = $line[1];
-    header('location: index.php');
+   ?>
+    <script>
+
+        alert('User has been created please log in!')
+    </script>
+<?php
+    header('location: SignIn.php');
 }
 
 function signin()
