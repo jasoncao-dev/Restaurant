@@ -1,8 +1,4 @@
 <?php
-
-if ($_SESSION["is_logged"] = true) {
-    header("location: index.php");
-}
 ?>
 
 <!DOCTYPE HTML>
