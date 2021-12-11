@@ -1,5 +1,3 @@
 <?php
-
-if(checks_for_order()){
-
-}
+session_start();
+include_once 'database.php';
