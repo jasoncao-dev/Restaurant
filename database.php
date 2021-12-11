@@ -13,15 +13,26 @@ $options = [
 $db = new PDO('mysql:host=' . $host . ';dbname=' . $dbname . ';charset=' . $charset, $user, $pass, $options);
 
 
-function display_restaurant_list($db){
+function display_restaurant_list($db) {
     $restaurants = $db->query("select RID, name, category from restaurants");
-        while ($entry = $restaurants->fetch()){
+        while ($entry = $restaurants->fetch()) {
+            $r_address = $db->query('select street, city, state, zip, phone from address where AID = '.$entry['RID']);
+            $a_temp = $r_address->fetch();
             ?>
-            <div>
-                <a href="detail.php?id=<?=$entry['RID']?>"><?=$entry['name']?></a>
-                <h4><?=$entry['category']?></h4>
+            <div class="col">
+                <a href="detail.php?id=<?=$entry['RID']?>" class="text-decoration-none">
+                    <div class="card h-100">
+                        <img src="http://s3-media2.fl.yelpcdn.com/bphoto/MmgtASP3l_t4tPCL1iAsCg/o.jpg" class="card-img-top">
+                        <div class="card-body">
+                            <h5 class="card-title text-dark"><?=$entry['name']?></h5>
+                            <p class="card-text text-muted"><?=$a_temp['street']?>, <?=$a_temp['city']?>, <?=$a_temp['state']?>
+                                <?=$a_temp['zip']?></p>
+                            <button class="btn btn-sm btn-color rounded-pill text-light"><?=$entry['category']?></button>
+                        </div>
+                    </div>
+                </a>
             </div>
-            <?php
+<?php
         }
 }
 
@@ -30,24 +41,24 @@ function display_menu($db, $id){
     if(session_status()){
     while($item = $menu->fetch()){
         ?>
-            <div>
-                <h3><?=$item['name']?></h3>
-                <p><?=$item['description']?></p>
-                <p><?=$item['price']?></p>
-                <a href="addorder.php?id=<?=$item['MID']?>" <button type="submit">ADD To Order</button>
-            </div>
+<div>
+    <h3><?=$item['name']?></h3>
+    <p><?=$item['description']?></p>
+    <p><?=$item['price']?></p>
+    <a href="addorder.php?id=<?=$item['MID']?>" <button type="submit">ADD To Order</button>
+</div>
 <?php
     }
 }
     else{
         while($item = $menu->fetch()){
             ?>
-            <div>
-                <h3><?=$item['name']?></h3>
-                <p><?=$item['description']?></p>
-                <p><?=$item['price']?></p>
-            </div>
-            <?php
+<div>
+    <h3><?=$item['name']?></h3>
+    <p><?=$item['description']?></p>
+    <p><?=$item['price']?></p>
+</div>
+<?php
         }
     }
 }
@@ -60,11 +71,12 @@ function display_restaurant_detail($db, $id){
     print_r($a_temp);
     print_r($r_temp);
     ?>
-    <div>
-        <h1><?=$r_temp['name']?></h1>
-        <h2><?=$r_temp['category']?></h2>
-        <p><?=$a_temp[0]['street'], ', ',$a_temp[0]['city'],' ',$a_temp[0]['state'], ', ',$a_temp[0]['zip'],'. Phone Number= ',$a_temp[0]['phone']?></p>
-    </div>
+<div>
+    <h1><?=$r_temp['name']?></h1>
+    <h2><?=$r_temp['category']?></h2>
+    <p><?=$a_temp[0]['street'], ', ',$a_temp[0]['city'],' ',$a_temp[0]['state'], ', ',$a_temp[0]['zip'],'. Phone Number= ',$a_temp[0]['phone']?>
+    </p>
+</div>
 <?php
 }
 
