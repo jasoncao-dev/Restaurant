@@ -38,7 +38,7 @@ function display_restaurant_list($db) {
 
 function display_menu($db, $id){
     $menu = $db->query('select MID, name, description, price from menu_items where RID = ' . $id);
-    if(session_status()){
+    if(isset($_SESSION)){
     while($item = $menu->fetch()){
         ?>
 <div>
@@ -81,11 +81,9 @@ function display_restaurant_detail($db, $id){
 }
 
 function create_user($user_array, $db){
-    $db->query($db->query("INSERT INTO address(AID, street, city, state, zip, phone) VALUES (NULL, '".$user_array['street']."', '".$user_array['city']."', '".$user_array['state']."','".$user_array['zip']."', '".$user_array['phone']."'"));
+    $db->query($db->query("INSERT INTO address(AID, street, city, state, zip, phone) VALUES (NULL, '".$user_array['street']."', '".$user_array['city']."', '".$user_array['state']."', '".$user_array['zip']."', '".$user_array['phone']."'"));
     $AID = $db->lastInsertId();
-    $db->query("insert into auth(pid, password) values(null, '".$user_array['password']."')");
-    $PID = $db->lastInsertID();
-    $db->query("insert into users(uid, aid, pid, name, email, isauth) values(null, '".$AID."','".$PID."', '".$user_array['name']."', '".$user_array['email']."', null)");
+    $db->query("insert into users(uid, aid, password, name, email, isauth) values(null, '".$AID."', '".$user_array['password']."', '".$user_array['name']."', '".$user_array['email']."', null)");
 }
 
 function check_if_exists($db, $table, $element, $value): bool{

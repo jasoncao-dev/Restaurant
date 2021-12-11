@@ -111,7 +111,7 @@
                         <h5 class="form-title">Personal Information</h5>
                         <!-- Full name -->
                         <div class="form-group mb-3">
-                                <label for="firstname" class="form-label">Full name <span class="text-danger">&ast;</span></label>
+                                <label for="name" class="form-label">Full name <span class="text-danger">&ast;</span></label>
                                 <input type="text" class="form-control p-2-5 px-4 rounded-pill" name="name">
                         </div>
                         <!-- Email address -->
@@ -121,7 +121,7 @@
                         </div>
                         <!-- Password -->
                         <div class="form-group mb-3">
-                            <label for="email" class="form-label">Password <span class="text-danger">&ast;</span></label>
+                            <label for="password" class="form-label">Password <span class="text-danger">&ast;</span></label>
                             <input type="password" class="form-control p-2-5 px-4 rounded-pill" name="password" required/>
                         </div>
                     </div>
@@ -198,8 +198,8 @@
                                     </select>
                                     </div>
                                     <div class="col-sm-6">
-                                        <label for="zipcode" class="form-label">Zipcode <span class="text-danger">&ast;</span></label>
-                                        <input type="text" class="form-control p-2-5 px-4 rounded-pill" name="zipcode">
+                                        <label for="zip" class="form-label">Zipcode <span class="text-danger">&ast;</span></label>
+                                        <input type="text" class="form-control p-2-5 px-4 rounded-pill" name="zip">
                                     </div>
                                 </div>
                         </div>
