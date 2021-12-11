@@ -136,3 +136,8 @@ function close_order($db, $oid){
     $db->query("update order_list set is_complete = 1 where OID = '".$oid."'");
     $_SESSION['OID'] = create_oid($db, $_SESSION['UID']);
 }
+
+//function update_user_address($db, $array){
+   // $db->query("update address set street = '".$array['street']."', city = '".$array['city']."', state = '".$array['state']."',
+     //zip = '".$array['zip']."', phone = '".$array['phone']."' where AID = '".$"'");
+//}
