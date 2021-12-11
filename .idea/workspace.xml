@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="9348cfa3-028d-446d-b064-041501ab1f62" name="Changes" comment="added some pages to start working on them">
+    <list default="true" id="9348cfa3-028d-446d-b064-041501ab1f62" name="Changes" comment="add some fore to things">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/auth.php" beforeDir="false" afterPath="$PROJECT_DIR$/auth.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/database.php" beforeDir="false" afterPath="$PROJECT_DIR$/database.php" afterDir="false" />
     </list>
-    <list id="f36a982f-3bb5-4035-82d7-661898af0151" name="Changes by Blake" comment="">
+    <list id="fffb145e-f80e-402e-86b0-18f5fc0d70a8" name="Changes by Blake" comment="">
       <change beforePath="$PROJECT_DIR$/user/addorder.php" beforeDir="false" afterPath="$PROJECT_DIR$/user/addorder.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -46,9 +46,40 @@
       <workItem from="1639152354200" duration="217000" />
       <workItem from="1639254664812" duration="757000" />
     </task>
+    <task id="LOCAL-00001" summary="add some fore to things">
+      <created>1639256958056</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1639256958056</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Changes by Blake">
+      <created>1639256967262</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1639256967262</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="add some fore to things" />
+    <MESSAGE value="Changes by Blake" />
+    <option name="LAST_COMMIT_MESSAGE" value="Changes by Blake" />
   </component>
 </project>

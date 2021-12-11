@@ -115,6 +115,24 @@ function checks_for_order($db, $UID): bool{
     return($order->fetch('count') > 0);
 }
 
-function add_to_order($db, $MID, $UID){
-    $
+function get_oid($db, $UID):string {
+    $oid = $db->query("select OID from order_list where where UID = '".$UID."' and is_complete = 0");
+    return $oid->fetch('OID');
+}
+function add_to_order($db, $MID, $number){
+    $db->query("insert into order_items(oid, mid, amount) VALUES ('".$_SESSION['OID']."', '".$MID."', '".$number."')");
+}
+
+function create_oid($db, $UID): int{
+    $db->query("insert into order_list(oid, uid, is_complete) values (null, '".$UID."', 0)");
+    return $db->lastInsertId();
+}
+
+function display_cart($db){
+    $cart = $db->query("select * from order_items where OID = '".$_SESSION['OID']."'");
+}
+
+function close_order($db, $oid){
+    $db->query("update order_list set is_complete = 1 where OID = '".$oid."'");
+    $_SESSION['OID'] = create_oid($db, $_SESSION['UID']);
 }

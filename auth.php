@@ -53,6 +53,12 @@ function signin($db) {
         $_SESSION['eamil'] = $_POST['email'];
         $_SESSION["is_logged"] = true;
         $_SESSION['UID'] = get_uid($db, $_POST['email']);
+        if(checks_for_order($db,$_SESSION['UID'])){
+            $_SESSION['OID'] = get_oid($db, $_SESSION['UID']);
+        }
+        else{
+           $_SESSION['OID'] = create_oid($db, $_SESSION['UID']);
+        }
         header('location: users/index.php');
     }
     }
