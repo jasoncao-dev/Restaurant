@@ -19,62 +19,11 @@
     <link href="http://fonts.cdnfonts.com/css/apercu" rel="stylesheet">
 
     <!-- CSS -->
-    <link rel="stylesheet" type="text/css" href="/css/styles.css">
+    <link rel="stylesheet" type="text/css" href="./css/styles.css">
 
     <!-- Title & Icon -->
     <title>FooDash Login</title>
     <link rel="icon" href="./images/icon.png" type="image/png">
-
-    <style>
-        @import url('http://fonts.cdnfonts.com/css/apercu');
-
-        body {
-            font-family: 'Apercu', sans-serif;
-            background-color: #f8f9fa;
-        }
-
-        .text-color {
-            color: #ed151e;
-        }
-
-        .btn-color {
-            background-color: #ed151e;
-            border-color: #ed151e;
-        }
-
-        .btn-color:hover {
-            background-color: #cf131b;
-            border-color: #cf131b;
-        }
-        
-        .p-2-5 {
-            padding: 0.70rem;
-        }
-
-        .form-account-access {
-            max-width: 28rem;
-        }
-
-        .form-account-access .icon {
-            width: 13%;
-            padding-right: 5px;
-        }
-
-        .break-line {
-            height: 1px;
-            width: 40%;
-            background-color: #E0E0E0;
-            margin-top: 10px
-        }
-
-        .footer {
-            position: fixed;
-            left: 0;
-            bottom: 0;
-            width: 100%;
-            text-align: center;
-        }
-    </style>
 </head>
 
 <body class="d-flex flex-column h-100">

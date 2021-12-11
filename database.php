@@ -14,7 +14,7 @@ $db = new PDO('mysql:host=' . $host . ';dbname=' . $dbname . ';charset=' . $char
 
 
 function display_restaurant_list($db) {
-    $restaurants = $db->query("select RID, name, category from restaurants");
+    $restaurants = $db->query("select RID, name, category, image from restaurants");
         while ($entry = $restaurants->fetch()) {
             $r_address = $db->query('select street, city, state, zip, phone from address where AID = '.$entry['RID']);
             $a_temp = $r_address->fetch();
@@ -22,12 +22,12 @@ function display_restaurant_list($db) {
             <div class="col">
                 <a href="detail.php?id=<?=$entry['RID']?>" class="text-decoration-none">
                     <div class="card h-100">
-                        <img src="http://s3-media2.fl.yelpcdn.com/bphoto/MmgtASP3l_t4tPCL1iAsCg/o.jpg" class="card-img-top">
+                        <img src="<?=$entry['image']?>" class="card-img-top">
                         <div class="card-body">
                             <h5 class="card-title text-dark"><?=$entry['name']?></h5>
-                            <p class="card-text text-muted"><?=$a_temp['street']?>, <?=$a_temp['city']?>, <?=$a_temp['state']?>
-                                <?=$a_temp['zip']?></p>
                             <button class="btn btn-sm btn-color rounded-pill text-light"><?=$entry['category']?></button>
+                            <p class="card-text text-muted pt-1"><?=$a_temp['street']?>, <?=$a_temp['city']?>, <?=$a_temp['state']?>
+                                <?=$a_temp['zip']?></p>
                         </div>
                     </div>
                 </a>
@@ -37,16 +37,24 @@ function display_restaurant_list($db) {
 }
 
 function display_menu($db, $id){
-    $menu = $db->query('select MID, name, description, price from menu_items where RID = ' . $id);
-    if(session_status()){
-    while($item = $menu->fetch()){
-        ?>
-<div>
-    <h3><?=$item['name']?></h3>
-    <p><?=$item['description']?></p>
-    <p><?=$item['price']?></p>
-    <a href="addorder.php?id=<?=$item['MID']?>" <button type="submit">ADD To Order</button>
-</div>
+    $menu = $db->query('select MID, name, description, price, image from menu_items where RID = ' . $id);
+    if(session_status()) {
+        while($item = $menu->fetch()) {?>
+            <div class="card mb-2" style="">
+                 <div class="row g-1">
+                    <div class="col-md-4">
+                        <img src="<?=$item['image']?>" class="img-fluid rounded-start menu-thumbnail" alt="...">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title"><?=$item['name']?></h5>
+                            <p class="card-text mb-0"><?=$item['description']?></p>
+                            <p class="card-text"><small class="text-muted"><?=$item['price']?></small></p>
+                            <button class="btn btn-sm btn-color rounded-pill text-light">Add to order</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 <?php
     }
 }
@@ -63,21 +71,21 @@ function display_menu($db, $id){
     }
 }
 
-function display_restaurant_detail($db, $id){
-    $restaurant = $db->query('select name, category, AID from restaurants where RID = ' . $id);
+function display_restaurant_detail($db, $id) {
+    $restaurant = $db->query('select name, category, AID, image from restaurants where RID = ' . $id);
     $r_temp = $restaurant->fetch();
     $r_address = $db->query('select street, city, state, zip, phone from address where AID = '.$r_temp['AID']);
-    $a_temp[] = $r_address->fetch();
-    print_r($a_temp);
-    print_r($r_temp);
-    ?>
-<div>
-    <h1><?=$r_temp['name']?></h1>
-    <h2><?=$r_temp['category']?></h2>
-    <p><?=$a_temp[0]['street'], ', ',$a_temp[0]['city'],' ',$a_temp[0]['state'], ', ',$a_temp[0]['zip'],'. Phone Number= ',$a_temp[0]['phone']?>
-    </p>
-</div>
-<?php
+    $a_temp = $r_address->fetch();
+    $result = array();
+    $result['name'] = $r_temp['name'];
+    $result['category'] = $r_temp['category'];
+    $result['image'] = $r_temp['image'];
+    $result['street'] = $a_temp['street'];
+    $result['city'] = $a_temp['city'];
+    $result['state'] = $a_temp['state'];
+    $result['zip'] = $a_temp['zip'];
+    $result['phone'] = $a_temp['phone'];
+    return $result;
 }
 
 function create_user($user_array, $db){

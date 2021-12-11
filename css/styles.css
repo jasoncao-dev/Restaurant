@@ -1,0 +1,151 @@
+@import url("http://fonts.cdnfonts.com/css/apercu");
+
+body {
+  font-family: "Apercu", sans-serif;
+  background-color: #f8f9fa;
+}
+
+.text-color {
+  color: #ed151e;
+}
+
+.btn-color {
+  background-color: #ed151e;
+  border-color: #ed151e;
+}
+
+.btn-outline-color {
+  border: 2px solid #ed151e;
+  color: #ed151e;
+}
+
+.btn-outline-color:hover {
+  background-color: #cf131b;
+  border-color: #cf131b;
+  color: white;
+}
+
+.btn-color:hover {
+  background-color: #cf131b;
+  border-color: #cf131b;
+}
+
+.p-2-5 {
+  padding: 0.7rem;
+}
+
+.form-account-access {
+  max-width: 28rem;
+}
+
+.form-register {
+    max-width: 38rem;
+}
+
+.form-account-access .icon {
+  width: 13%;
+  padding-right: 5px;
+}
+
+.break-line {
+  height: 1px;
+  width: 40%;
+  background-color: #e0e0e0;
+  margin-top: 10px;
+}
+
+.footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+}
+
+header.masthead {
+  padding-top: 15.5rem;
+  padding-bottom: 8rem;
+  text-align: center;
+  color: #fff;
+  background-image: url("../images/bg.jpeg");
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+  background-position: center center;
+  background-size: cover;
+}
+
+header.cover {
+    padding-top: 15.5rem;
+    padding-bottom: 6rem;
+    text-align: center;
+    color: #fff;
+    background-image: url("../images/bg.jpeg");
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+    background-position: center center;
+    background-size: cover;
+  }
+
+.search-form .form {
+  position: relative;
+}
+
+.search-form .form .fa-search {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  color: #9ca3af;
+}
+
+.search-form .form span {
+  position: absolute;
+  right: 17px;
+  top: 13px;
+  padding: 2px;
+  border-left: 1px solid #d1d5db;
+}
+
+.search-form .left-pan {
+  padding-left: 7px;
+}
+
+.search-form .left-pan i {
+  padding-left: 10px;
+}
+
+.search-form .form-input {
+  height: 55px;
+  text-indent: 33px;
+  border-radius: 75px;
+}
+
+.search-form .form-input:focus {
+  box-shadow: none;
+  border: none;
+}
+
+.card-img-top {
+  width: 100%;
+  height: 15vw;
+  object-fit: cover;
+}
+
+.res-thumbnail {
+    width: 9rem;
+    object-fit: cover;
+    height: 9rem;
+    transform: translateY(-4.5rem);
+}
+
+.menu-thumbnail {
+    object-fit: cover;
+    width: 11rem;
+    height: 11rem;
+}
+
+img.img-thumbnail.rounded-circle.res-thumbnail {
+    width: 9rem;
+    object-fit: cover;
+    height: 9rem;
+    transform: translateY(-4rem);
+}
