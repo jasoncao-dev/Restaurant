@@ -91,9 +91,7 @@ function display_restaurant_detail($db, $id) {
 function create_user($user_array, $db){
     $db->query($db->query("INSERT INTO address(AID, street, city, state, zip, phone) VALUES (NULL, '".$user_array['street']."', '".$user_array['city']."', '".$user_array['state']."','".$user_array['zip']."', '".$user_array['phone']."'"));
     $AID = $db->lastInsertId();
-    $db->query("insert into auth(pid, password) values(null, '".$user_array['password']."')");
-    $PID = $db->lastInsertID();
-    $db->query("insert into users(uid, aid, pid, name, email, isauth) values(null, '".$AID."','".$PID."', '".$user_array['name']."', '".$user_array['email']."', null)");
+    $db->query("insert into users(uid, aid, password, name, email, isauth) values(null, '".$AID."','".$user_array['password']."', '".$user_array['name']."', '".$user_array['email']."', null)");
 }
 
 function check_if_exists($db, $table, $element, $value): bool{
@@ -103,7 +101,20 @@ function check_if_exists($db, $table, $element, $value): bool{
 }
 
 function check_password($db, $email, $pass): bool{
-    $PID = $db->query("select PID from users where email = '".$email."'");
-    $temp = $db->query("select password from auth where PID = '".$PID."'");
+    $temp = $db->query("select password from users where email = '".$email."'");
     return ($temp == $pass);
+}
+
+function get_uid($db, $email): string {
+    $uid = $db->query("select UID from users where email = '".$email."'");
+    return $uid->fetch('UID');
+}
+
+function checks_for_order($db, $UID): bool{
+    $order = $db->query("select count(1) from order_list where UID = '".$UID."' and is_complete = 0");
+    return($order->fetch('count') > 0);
+}
+
+function add_to_order($db, $MID, $UID){
+    $
 }

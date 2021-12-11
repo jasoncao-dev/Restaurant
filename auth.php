@@ -12,7 +12,7 @@ function signup($db)
 
     // check if password length is between 8 and 16 characters
     if (strlen($_POST['password']) < 8) die(message('error', 'Please enter a password >=8 characters. <a href="signin.php">click here<a/>'));
-    if (strlen($_POST['password']) > 16) die(message('error', 'Please enter a password <= 16 characters. <a href="signin.php">click here<a/>'));
+    if (strlen($_POST['password']) > 16) die(message('error', 'Plea42:23se enter a password <= 16 characters. <a href="signin.php">click here<a/>'));
 
     // check if the password contains at least 2 special characters
     $pattern = '/^(?=.*[!@#$%^&*-])/';
@@ -43,7 +43,7 @@ function signin($db) {
     if(!check_if_exists($db, "users", "email", $_POST['email'] )){
         die(message('error', 'email not registered, please sign up. <a href="signin.php">click here<a/>'));
     }
-    if(!check_password($db, $_POST['email'], $_POST['password'] )){
+    if(!check_password($db, $_POST['email'], hash($_POST['password'], 1 ))){
         die(message('error', 'incorrect password, please try again. <a href="signin.php">click here<a/>'));
     }
     else {
@@ -52,6 +52,7 @@ function signin($db) {
         $_SESSION['name'] = $_POST['name'];
         $_SESSION['eamil'] = $_POST['email'];
         $_SESSION["is_logged"] = true;
+        $_SESSION['UID'] = get_uid($db, $_POST['email']);
         header('location: users/index.php');
     }
     }
