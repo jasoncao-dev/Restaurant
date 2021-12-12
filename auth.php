@@ -54,9 +54,9 @@ function signin($db) {
         die();
     }
     else {
-        //Start the session and send the user to the quotes page
+        //Start the session and send the user to the user's page
         session_start();
-        $_SESSION['name'] = $_POST['name'];
+        $_SESSION['name'] = get_name_by_email($db, $_POST['email']);
         $_SESSION['email'] = $_POST['email'];
         $_SESSION['is_logged'] = true;
         header('location: ./user/index.php');

@@ -50,7 +50,7 @@ function display_menu($db, $id){
                             <h5 class="card-title"><?=$item['name']?></h5>
                             <p class="card-text mb-0"><?=$item['description']?></p>
                             <p class="card-text"><small class="text-muted"><?=$item['price']?></small></p>
-                            <button class="btn btn-sm btn-color rounded-pill text-light">Add to order</button>
+                            <button id="add" value="<?=$item['MID']?>" class="btn btn-sm btn-color rounded-pill text-light">Add to order</button>
                         </div>
                     </div>
                 </div>
@@ -118,6 +118,11 @@ function check_password($db, $email, $user_password): bool{
         echo "Password is not correct";
     }
     return password_verify($user_password, $password['password']);
+}
+
+function get_name_by_email($db, $email): string {
+    $temp = $db->query("select name from users where email = '".$email."'");
+    return $temp->fetch()['name'];
 }
 
 function get_uid($db, $email): string {
