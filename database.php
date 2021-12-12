@@ -89,21 +89,33 @@ function display_restaurant_detail($db, $id) {
 }
 
 function create_user($user_array, $db){
-    $db->query($db->query("INSERT INTO address(AID, street, city, state, zip, phone) VALUES (NULL, '".$user_array['street']."', '".$user_array['city']."', '".$user_array['state']."','".$user_array['zip']."', '".$user_array['phone']."'"));
+    echo '<pre>';
+    print_r($user_array);
+    echo '</pre>';
+    echo "insert into address(AID, street, city, state, zip, phone) values(null, '".$user_array['street']."', '".$user_array['city']."', '".$user_array['state']."','".$user_array['zip']."', '".$user_array['phone']."')";
+    $db->query($db->query("insert into address(AID, street, city, state, zip, phone) values(null, '".$user_array['street']."', '".$user_array['city']."', '".$user_array['state']."','".$user_array['zip']."', '".$user_array['phone']."')"));
     $AID = $db->lastInsertId();
-    $db->query("insert into auth(pid, password) values(null, '".$user_array['password']."')");
-    $PID = $db->lastInsertID();
-    $db->query("insert into users(uid, aid, pid, name, email, isauth) values(null, '".$AID."','".$PID."', '".$user_array['name']."', '".$user_array['email']."', null)");
+    //$db->query("insert into auth(pid, password) values(null, '".$user_array['password']."')");
+    //$PID = $db->lastInsertID();
+    $db->query("insert into users(uid, aid, password, name, email, isAuth) values(null, '".$AID."','".$user_array['password']."', '".$user_array['name']."', '".$user_array['email']."', null)");
 }
 
 function check_if_exists($db, $table, $element, $value): bool{
-    $temp = $db->query("select count(1) from '".$table."' where '".$element."' = '".$value."'");
-    if($temp > 0){return true;}
-    else{return false;}
+    //echo "select * from ".$table." where '".$element."' = '".$value."'";
+    //die();
+    $temp = $db->query("select * from ".$table." where ".$element." = '".$value."'");
+    $result = $temp->fetch();
+    return count($result) > 0;
 }
 
-function check_password($db, $email, $pass): bool{
-    $PID = $db->query("select PID from users where email = '".$email."'");
-    $temp = $db->query("select password from auth where PID = '".$PID."'");
-    return ($temp == $pass);
+function check_password($db, $email, $user_password): bool{
+    $temp = $db->query("select password from users where email = '".$email."'");
+    $password = $temp->fetch();
+    print_r($password);
+    if (password_verify($user_password, $password['password'])) {
+        echo "Password is correct.";
+    } else {
+        echo "Password is not correct";
+    }
+    return password_verify($user_password, $password['password']);
 }

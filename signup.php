@@ -76,6 +76,11 @@
                     </div>
                     <div class="col-sm-6 ps-2">
                         <h5 class="form-title">Address Information</h5>
+                        <!-- Phone number -->
+                        <div class="form-group mb-3">
+                            <label for="phone" class="form-label">Phone number <span class="text-danger">&ast;</span></label>
+                            <input type="text" class="form-control p-2-5 px-4 rounded-pill" name="phone" required/>
+                        </div>
                         <!-- Street -->
                         <div class="form-group mb-3">
                             <label for="street" class="form-label">Street Address <span class="text-danger">&ast;</span></label>
@@ -91,7 +96,7 @@
                             <div class="row g-2">
                                     <div class="col-sm-6">
                                     <label for="state" class="form-label">State <span class="text-danger">&ast;</span></label>
-                                    <select class="form-select p-2-5 px-4 rounded-pill" required>
+                                    <select class="form-select p-2-5 px-4 rounded-pill" name="state" required>
                                         <option selected disabled value="">Select a state</option>
                                         <option value="AL">Alabama</option>
                                         <option value="AK">Alaska</option>
@@ -193,17 +198,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
         crossorigin="anonymous"></script>
-
-    <script>
-        window.$ = window.jQuery = require('jquery')
-    </script>
-
-    <script>
-        if (typeof module === 'object') {
-            window.module = module;
-            module = undefined;
-        }
-    </script>
 </body>
 
 </html>

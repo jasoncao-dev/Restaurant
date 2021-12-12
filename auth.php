@@ -1,7 +1,7 @@
 <?php
 require_once("database.php");
 print_r($_POST);
-if (count($_POST)> 2) signup($db);
+if ($_POST['action'] == 'signup') signup($db);
 else signin($db);
 
 function signup($db)
@@ -15,24 +15,27 @@ function signup($db)
     if (strlen($_POST['password']) > 16) die(message('error', 'Please enter a password <= 16 characters. <a href="signin.php">click here<a/>'));
 
     // check if the password contains at least 2 special characters
+    /*
     $pattern = '/^(?=.*[!@#$%^&*-])/';
-    if (!preg_match($pattern, $_POST['password'])) die(message('error', 'password should contain special character. <a href="signin.php">click here<a/>'));
+    if (!preg_match($pattern, $_POST['password'])) {
+        echo "Something happened.";
+        die();
+    }*/
     $user_info = array(
         "name" => $_POST["name"],
         "email" => $_POST["email"],
         "phone" => $_POST["phone"],
-        "password" => password_hash($_POST["password"], 1),
+        "password" => password_hash($_POST["password"], PASSWORD_DEFAULT),
         "street" => $_POST["street"],
         "city" => $_POST["city"],
         "state" => $_POST["state"],
-        "zip" => $_POST["zipcode"]
+        "zip" => $_POST["zip"]
     );
     create_user($user_info, $db);
 
     //Write confirmation message and ask the user to sign in
    ?>
     <script>
-
         alert('User has been created please log in!')
     </script>
 <?php
@@ -40,18 +43,22 @@ function signup($db)
 }
 
 function signin($db) {
-    if(!check_if_exists($db, "users", "email", $_POST['email'] )){
-        die(message('error', 'email not registered, please sign up. <a href="signin.php">click here<a/>'));
+    echo "<pre>";
+    print_r($_POST);
+    if(!check_if_exists($db, "users", "email", $_POST['email'] )) {
+        echo 'email is not registered'; 
+        die();
     }
     if(!check_password($db, $_POST['email'], $_POST['password'] )){
-        die(message('error', 'incorrect password, please try again. <a href="signin.php">click here<a/>'));
+        echo 'incorrect password'; 
+        die();
     }
     else {
         //Start the session and send the user to the quotes page
         session_start();
         $_SESSION['name'] = $_POST['name'];
-        $_SESSION['eamil'] = $_POST['email'];
-        $_SESSION["is_logged"] = true;
-        header('location: users/index.php');
+        $_SESSION['email'] = $_POST['email'];
+        $_SESSION['is_logged'] = true;
+        header('location: index.php');
     }
-    }
+}
