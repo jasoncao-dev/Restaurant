@@ -46,11 +46,11 @@ function signin($db) {
     echo "<pre>";
     print_r($_POST);
     if(!check_if_exists($db, "users", "email", $_POST['email'] )) {
-        echo 'email is not registered'; 
+        echo 'email is not registered';
         die();
     }
     if(!check_password($db, $_POST['email'], $_POST['password'] )){
-        echo 'incorrect password'; 
+        echo 'incorrect password';
         die();
     }
     else {

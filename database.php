@@ -119,3 +119,46 @@ function check_password($db, $email, $user_password): bool{
     }
     return password_verify($user_password, $password['password']);
 }
+
+function get_uid($db, $email): string {
+    $uid = $db->query("select UID from users where email = '".$email."'");
+    return $uid->fetch('UID');
+}
+
+function checks_for_order($db, $UID): bool{
+    $order = $db->query("select count(1) from order_list where UID = '".$UID."' and is_complete = 0");
+    return($order->fetch('count') > 0);
+}
+
+function get_oid($db, $UID):string {
+    $oid = $db->query("select OID from order_list where where UID = '".$UID."' and is_complete = 0");
+    return $oid->fetch('OID');
+}
+function add_to_order($db, $MID, $number){
+    $db->query("insert into order_items(oid, mid, amount) VALUES ('".$_SESSION['OID']."', '".$MID."', '".$number."')");
+}
+
+function create_oid($db, $UID): int{
+    $db->query("insert into order_list(oid, uid, is_complete) values (null, '".$UID."', 0)");
+    return $db->lastInsertId();
+}
+
+function display_cart($db):array{
+    $cart = $db->query("select name, price, amount from order_items join menu_items mi on
+    order_items.MID = mi.MID and order_items.OID ='".$_SESSION['OID']."'");
+    return (array) $cart;
+}
+
+function close_order($db, $oid){
+    $db->query("update order_list set is_complete = 1 where OID = '".$oid."'");
+    $_SESSION['OID'] = create_oid($db, $_SESSION['UID']);
+}
+
+function get_aid($db): string{
+    $aid = $db->query("select AID from users where UID = '".$_SESSION['UID']."'");
+    return $aid->fetch('AID');
+}
+function update_user_address($db, $array){
+    $db->query("update address set street = '".$array['street']."', city = '".$array['city']."', state = '".$array['state']."',
+     zip = '".$array['zip']."', phone = '".$array['phone']."' where AID = '".get_aid($db)."'");
+}
