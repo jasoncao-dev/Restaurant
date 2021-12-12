@@ -59,6 +59,6 @@ function signin($db) {
         $_SESSION['name'] = $_POST['name'];
         $_SESSION['email'] = $_POST['email'];
         $_SESSION['is_logged'] = true;
-        header('location: index.php');
+        header('location: ./user/index.php');
     }
 }

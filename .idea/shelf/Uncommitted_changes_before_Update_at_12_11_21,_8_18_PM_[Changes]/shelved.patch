@@ -1,0 +1,19 @@
+Index: auth.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?php\nrequire_once(\"database.php\");\nprint_r($_POST);\nif ($_POST['action'] == 'signup') signup($db);\nelse signin($db);\n\nfunction signup($db)\n{ //Format: name;username;password\n\n    // check if the email is valid\n    if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) die(message('error', 'Your email is invalid. <a href=\"signin.php\">click here<a/>'));\n\n    // check if password length is between 8 and 16 characters\n    if (strlen($_POST['password']) < 8) die(message('error', 'Please enter a password >=8 characters. <a href=\"signin.php\">click here<a/>'));\n    if (strlen($_POST['password']) > 16) die(message('error', 'Please enter a password <= 16 characters. <a href=\"signin.php\">click here<a/>'));\n\n    // check if the password contains at least 2 special characters\n    /*\n    $pattern = '/^(?=.*[!@#$%^&*-])/';\n    if (!preg_match($pattern, $_POST['password'])) {\n        echo \"Something happened.\";\n        die();\n    }*/\n    $user_info = array(\n        \"name\" => $_POST[\"name\"],\n        \"email\" => $_POST[\"email\"],\n        \"phone\" => $_POST[\"phone\"],\n        \"password\" => password_hash($_POST[\"password\"], PASSWORD_DEFAULT),\n        \"street\" => $_POST[\"street\"],\n        \"city\" => $_POST[\"city\"],\n        \"state\" => $_POST[\"state\"],\n        \"zip\" => $_POST[\"zip\"]\n    );\n    create_user($user_info, $db);\n\n    //Write confirmation message and ask the user to sign in\n   ?>\n    <script>\n        alert('User has been created please log in!')\n    </script>\n<?php\n    header('location: signin.php');\n}\n\nfunction signin($db) {\n    echo \"<pre>\";\n    print_r($_POST);\n    if(!check_if_exists($db, \"users\", \"email\", $_POST['email'] )) {\n        echo 'email is not registered'; \n        die();\n    }\n    if(!check_password($db, $_POST['email'], $_POST['password'] )){\n        echo 'incorrect password'; \n        die();\n    }\n    else {\n        //Start the session and send the user to the quotes page\n        session_start();\n        $_SESSION['name'] = $_POST['name'];\n        $_SESSION['email'] = $_POST['email'];\n        $_SESSION['is_logged'] = true;\n        header('location: index.php');\n    }\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/auth.php b/auth.php
+--- a/auth.php	(revision bf2a25e4781c16eb83f95757090e2b426497297e)
++++ b/auth.php	(date 1639271782831)
+@@ -59,6 +59,6 @@
+         $_SESSION['name'] = $_POST['name'];
+         $_SESSION['email'] = $_POST['email'];
+         $_SESSION['is_logged'] = true;
+-        header('location: index.php');
++        header('location: ./user/index.php');
+     }
+ }
+\ No newline at end of file
