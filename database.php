@@ -22,7 +22,7 @@ function display_restaurant_list($db) {
             <div class="col">
                 <a href="detail.php?id=<?=$entry['RID']?>" class="text-decoration-none">
                     <div class="card h-100">
-                        <img src="<?=$entry['image']?>" class="card-img-top">
+                        <img src="<?=$entry['image']?>" class="card-img-top" alt="">
                         <div class="card-body">
                             <h5 class="card-title text-dark"><?=$entry['name']?></h5>
                             <button class="btn btn-sm btn-color rounded-pill text-light"><?=$entry['category']?></button>
@@ -71,7 +71,7 @@ function display_menu($db, $id){
     }
 }
 
-function display_restaurant_detail($db, $id) {
+function display_restaurant_detail($db, $id): array{
     $restaurant = $db->query('select name, category, AID, image from restaurants where RID = ' . $id);
     $r_temp = $restaurant->fetch();
     $r_address = $db->query('select street, city, state, zip, phone from address where AID = '.$r_temp['AID']);
@@ -89,7 +89,8 @@ function display_restaurant_detail($db, $id) {
 }
 
 function create_user($user_array, $db){
-    $db->query($db->query("INSERT INTO address(AID, street, city, state, zip, phone) VALUES (NULL, '".$user_array['street']."', '".$user_array['city']."', '".$user_array['state']."','".$user_array['zip']."', '".$user_array['phone']."'"));
+    $db->query($db->query("INSERT INTO address(AID, street, city, state, zip, phone) 
+        VALUES (NULL, '".$user_array['street']."', '".$user_array['city']."', '".$user_array['state']."','".$user_array['zip']."', '".$user_array['phone']."'"));
     $AID = $db->lastInsertId();
     $db->query("insert into users(uid, aid, password, name, email, isauth) values(null, '".$AID."','".$user_array['password']."', '".$user_array['name']."', '".$user_array['email']."', null)");
 }
@@ -128,8 +129,10 @@ function create_oid($db, $UID): int{
     return $db->lastInsertId();
 }
 
-function display_cart($db){
-    $cart = $db->query("select * from order_items where OID = '".$_SESSION['OID']."'");
+function display_cart($db):array{
+    $cart = $db->query("select name, price, amount from order_items join menu_items mi on
+    order_items.MID = mi.MID and order_items.OID ='".$_SESSION['OID']."'");
+    return (array) $cart;
 }
 
 function close_order($db, $oid){
@@ -137,7 +140,11 @@ function close_order($db, $oid){
     $_SESSION['OID'] = create_oid($db, $_SESSION['UID']);
 }
 
-//function update_user_address($db, $array){
-   // $db->query("update address set street = '".$array['street']."', city = '".$array['city']."', state = '".$array['state']."',
-     //zip = '".$array['zip']."', phone = '".$array['phone']."' where AID = '".$"'");
-//}
+function get_aid($db): string{
+    $aid = $db->query("select AID from users where UID = '".$_SESSION['UID']."'");
+    return $aid->fetch('AID');
+}
+function update_user_address($db, $array){
+    $db->query("update address set street = '".$array['street']."', city = '".$array['city']."', state = '".$array['state']."',
+     zip = '".$array['zip']."', phone = '".$array['phone']."' where AID = '".get_aid($db)."'");
+}

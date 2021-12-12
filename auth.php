@@ -15,8 +15,8 @@ function signup($db)
     if (strlen($_POST['password']) > 16) die(message('error', 'Plea42:23se enter a password <= 16 characters. <a href="signin.php">click here<a/>'));
 
     // check if the password contains at least 2 special characters
-    $pattern = '/^(?=.*[!@#$%^&*-])/';
-    if (!preg_match($pattern, $_POST['password'])) die(message('error', 'password should contain special character. <a href="signin.php">click here<a/>'));
+    //$pattern = '/^(?=.*[!@#$%^&*-])/';
+    //if (!preg_match($pattern, $_POST['password'])) die(message('error', 'password should contain special character. <a href="signin.php">click here<a/>'));
     $user_info = array(
         "name" => $_POST["name"],
         "email" => $_POST["email"],
@@ -32,7 +32,6 @@ function signup($db)
     //Write confirmation message and ask the user to sign in
    ?>
     <script>
-
         alert('User has been created please log in!')
     </script>
 <?php
