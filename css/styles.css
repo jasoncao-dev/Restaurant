@@ -25,6 +25,12 @@ body {
   color: white;
 }
 
+.cart-hoverred {
+  background-color: #cf131b;
+  border-color: #cf131b;
+  color: white;
+}
+
 .btn-color:hover {
   background-color: #cf131b;
   border-color: #cf131b;

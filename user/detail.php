@@ -50,7 +50,7 @@
             <div>
                 <a href=""><svg class="me-1 img-thumbnail rounded-circle" style="max-width: 3rem; height: 3rem;" viewBox="-1.5 -1.5 8 8" xmlns="http://www.w3.org/2000/svg" fill="#ed151e"><rect x="0" y="0" width="1" height="1"></rect><rect x="0" y="3" width="1" height="1"></rect><rect x="0" y="4" width="1" height="1"></rect><rect x="1" y="0" width="1" height="1"></rect><rect x="1" y="1" width="1" height="1"></rect><rect x="1" y="2" width="1" height="1"></rect><rect x="1" y="3" width="1" height="1"></rect><rect x="2" y="0" width="1" height="1"></rect><rect x="2" y="1" width="1" height="1"></rect><rect x="2" y="2" width="1" height="1"></rect><rect x="2" y="3" width="1" height="1"></rect><rect x="2" y="4" width="1" height="1"></rect><rect x="4" y="0" width="1" height="1"></rect><rect x="4" y="3" width="1" height="1"></rect><rect x="4" y="4" width="1" height="1"></rect><rect x="3" y="0" width="1" height="1"></rect><rect x="3" y="1" width="1" height="1"></rect><rect x="3" y="2" width="1" height="1"></rect><rect x="3" y="3" width="1" height="1"></rect></svg></a>
                 <span style="font-size: 0.9rem;"><?=$user_name?></span>
-                <button class="btn btn-outline-color btn-lg rounded-circle ms-1" style="border: 0px; padding-left: 12px; padding-right: 12px;"><i class="fas fa-shopping-cart"></i></button>
+                <button id="cart" class="btn btn-outline-color btn-lg rounded-circle ms-1" style="border: 0px; padding-left: 12px; padding-right: 12px;"><i class="fas fa-shopping-cart"></i></button>
                 <span style="font-size: 0.9rem;">Cart</span>
             </div>
         </div>
@@ -67,14 +67,23 @@
                 <div class="clearfix">
                     <img src="<?=$restaurant['image']?>" class="img-thumbnail rounded-circle res-thumbnail float-start me-2">
                     <h3 class="pt-2"><?=$restaurant['name']?></h3>
-                    <p class="card-text text-muted"><?=$restaurant['street']?>, <?=$restaurant['city']?>, <?=$restaurant['state']?><?=$restaurant['zip']?></p>
+                    <p class="card-text text-muted"><?=$restaurant['street']?>, <?=$restaurant['city']?>, <?=$restaurant['state']?> <?=$restaurant['zip']?></p>
                 </div>
             </section>
-            <section class="">
-                <h3 class="pb-2">Menu</h3>
-                <div class="row row-cols-1 row-cols-md-2 g-4">
-                    <?php display_menu($db, $id);?>
+            <section class="row">
+                <div class="col-md-9">
+                    <h3 class="pb-2">Menu</h3>
+                    <div class="row row-cols-1 row-cols-md-2 g-4">
+                        <?php display_menu($db, $id);?>
+                    </div>
                 </div>
+                <div class="col-md-3 ps-3">
+                    <h3 class="pb-2">My cart</h3>
+                    <span id="cart-text" class="text-muted fst-italic">There is nothing in your cart.</span>
+                    <?php display_menu_in_cart($db, $id); ?>
+                    <button id="checkout" class="btn btn-color text-light rounded-pill mx-auto mt-3">Check out</button>
+                </div>
+                
             </section>
         </div>
     </main>
@@ -101,9 +110,19 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
     <script>
-        $('#add').on('click', function(event) {
-            alert('Add to order')
-            console.log(event.target.value)
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        })
+
+        $('.add-to-order').on('click', function(event) {
+            $('#cart-text').addClass('d-none')
+            $(`#${event.target.value}`).removeClass('d-none');
+            $(`#${event.target.value}`).addClass('in-cart');
+        })
+
+        $('#checkout').on('click', function(event) {
+            
         })
     </script>
 </body>

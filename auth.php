@@ -56,9 +56,14 @@ function signin($db) {
     else {
         //Start the session and send the user to the user's page
         session_start();
+        $uid = get_uid($db, $_POST['email']);
+        $isAdmin = check_is_admin($db, $uid);
         $_SESSION['name'] = get_name_by_email($db, $_POST['email']);
         $_SESSION['email'] = $_POST['email'];
+        $_SESSION['uid'] = $uid;
         $_SESSION['is_logged'] = true;
-        header('location: ./user/index.php');
+        $_SESSION['is_admin'] = $isAdmin;
+        if ($isAdmin) header('location: ./admin/index.php');
+        else header('location: ./user/index.php');
     }
 }

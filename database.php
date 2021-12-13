@@ -14,9 +14,9 @@ $db = new PDO('mysql:host=' . $host . ';dbname=' . $dbname . ';charset=' . $char
 
 
 function display_restaurant_list($db) {
-    $restaurants = $db->query("select RID, name, category, image from restaurants");
+    $restaurants = $db->query("select RID, name, category, AID, image from restaurants");
         while ($entry = $restaurants->fetch()) {
-            $r_address = $db->query('select street, city, state, zip, phone from address where AID = '.$entry['RID']);
+            $r_address = $db->query('select street, city, state, zip, phone from address where AID = '.$entry['AID']);
             $a_temp = $r_address->fetch();
             ?>
             <div class="col">
@@ -38,7 +38,6 @@ function display_restaurant_list($db) {
 
 function display_menu($db, $id){
     $menu = $db->query('select MID, name, description, price, image from menu_items where RID = ' . $id);
-    if(session_status()) {
         while($item = $menu->fetch()) {?>
             <div class="card mb-2" style="">
                  <div class="row g-1">
@@ -50,7 +49,7 @@ function display_menu($db, $id){
                             <h5 class="card-title"><?=$item['name']?></h5>
                             <p class="card-text mb-0"><?=$item['description']?></p>
                             <p class="card-text"><small class="text-muted"><?=$item['price']?></small></p>
-                            <button id="add" value="<?=$item['MID']?>" class="btn btn-sm btn-color rounded-pill text-light">Add to order</button>
+                            <button value="<?=$item['MID']?>" class="add-to-order btn btn-sm btn-color rounded-pill text-light">Add to order</button>
                         </div>
                     </div>
                 </div>
@@ -58,16 +57,24 @@ function display_menu($db, $id){
 <?php
     }
 }
-    else{
-        while($item = $menu->fetch()){
-            ?>
-<div>
-    <h3><?=$item['name']?></h3>
-    <p><?=$item['description']?></p>
-    <p><?=$item['price']?></p>
-</div>
+
+function display_menu_in_cart($db, $id){
+    $menu = $db->query('select MID, name, description, price, image from menu_items where RID = ' . $id);
+        while($item = $menu->fetch()) {?>
+            <div id="<?=$item['MID']?>" class="card mb-2 d-none">
+                 <div class="row g-1">
+                    <div class="col-md-4">
+                        <img src="<?=$item['image']?>" class="img-fluid rounded-start menu-thumbnail" style="width: 5rem; height: 5rem;">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title"><?=$item['name']?></h5>
+                            <p class="card-text"><small class="text-muted"><?=$item['price']?></small></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
 <?php
-        }
     }
 }
 
@@ -97,7 +104,7 @@ function create_user($user_array, $db){
     $AID = $db->lastInsertId();
     //$db->query("insert into auth(pid, password) values(null, '".$user_array['password']."')");
     //$PID = $db->lastInsertID();
-    $db->query("insert into users(uid, aid, password, name, email, isAuth) values(null, '".$AID."','".$user_array['password']."', '".$user_array['name']."', '".$user_array['email']."', null)");
+    $db->query("insert into users(uid, aid, password, name, email, isAuth) values(null, '".$AID."','".$user_array['password']."', '".$user_array['name']."', '".$user_array['email']."', 0)");
 }
 
 function check_if_exists($db, $table, $element, $value): bool{
@@ -127,7 +134,26 @@ function get_name_by_email($db, $email): string {
 
 function get_uid($db, $email): string {
     $uid = $db->query("select UID from users where email = '".$email."'");
-    return $uid->fetch('UID');
+    return $uid->fetch()['UID'];
+}
+
+function get_user($db, $uid) {
+    $temp = $db->query("select aid, name, email from users where uid = ".$uid."");
+    $user = $temp->fetch();
+    $temp = $db->query("select street, city, state, zip, phone from address where aid = ".$user['aid']."");
+    $user_address = $temp->fetch();
+    $user['street'] = $user_address['street'];
+    $user['city'] = $user_address['city'];
+    $user['state'] = $user_address['state'];
+    $user['zip'] = $user_address['zip'];
+    $user['phone'] = $user_address['phone'];
+    return $user;
+}
+
+function check_is_admin($db, $uid): bool {
+    $temp = $db->query("select isAuth from users where uid = ".$uid."");
+    $user = $temp->fetch();
+    if ($user['isAuth'] == 1) return true; else return false;
 }
 
 function checks_for_order($db, $UID): bool{
@@ -166,4 +192,18 @@ function get_aid($db): string{
 function update_user_address($db, $array){
     $db->query("update address set street = '".$array['street']."', city = '".$array['city']."', state = '".$array['state']."',
      zip = '".$array['zip']."', phone = '".$array['phone']."' where AID = '".get_aid($db)."'");
+}
+
+function add_menu_item($db, $menu_item) {
+    echo "<pre>";
+    print_r($menu_item);
+    $db->query("insert into menu_items(mid, rid, name, description, price, image) values(null, ".$menu_item['rid'].",'".$menu_item['name']."', '".$menu_item['description']."', '".$menu_item['price']."', '".$menu_item['image']."')");
+}
+
+function add_restaurant($db, $restaurant) {
+    echo "<pre>";
+    $db->query("insert into address(AID, street, city, state, zip, phone) values(null, '".$restaurant['street']."', '".$restaurant['city']."', '".$restaurant['state']."','".$restaurant['zip']."', '".$restaurant['phone']."')");
+    $aid = $db->lastInsertId();
+    echo "insert into restaurants(rid, name, category, aid, image) values(null, '".$restaurant['name']."','".$restaurant['category']."', ".$aid.", '".$restaurant['image']."')";
+    $db->query("insert into restaurants(rid, name, category, aid, image) values(null, '".$restaurant['name']."','".$restaurant['category']."', ".$aid.", '".$restaurant['image']."')");
 }
