@@ -92,6 +92,7 @@ function display_restaurant_detail($db, $id) {
     $result['state'] = $a_temp['state'];
     $result['zip'] = $a_temp['zip'];
     $result['phone'] = $a_temp['phone'];
+    $result['AID'] = $r_temp['AID'];
     return $result;
 }
 
@@ -206,4 +207,15 @@ function add_restaurant($db, $restaurant) {
     $aid = $db->lastInsertId();
     echo "insert into restaurants(rid, name, category, aid, image) values(null, '".$restaurant['name']."','".$restaurant['category']."', ".$aid.", '".$restaurant['image']."')";
     $db->query("insert into restaurants(rid, name, category, aid, image) values(null, '".$restaurant['name']."','".$restaurant['category']."', ".$aid.", '".$restaurant['image']."')");
+}
+
+function update_restaurant($db, $restaurant) {
+    $db->query("update address set street = '".$restaurant['street']."', city = '".$restaurant['city']."', state = '".$restaurant['state']."', zip = '".$restaurant['zip']."', phone = '".$restaurant['phone']."' where AID =".$restaurant['AID']."");
+    $db->query("update restaurants set name = '".$restaurant['name']."', category = '".$restaurant['category']."', image = '".$restaurant['image']."' where rid = ".$restaurant['RID']."");
+}
+
+function delete_restaurant($db, $restaurant) {
+    $db->query("delete from address where AID = ".$restaurant['AID']."");
+    $db->query("delete from restaurants where RID = ".$restaurant['RID']."");
+    $db->query("delete from menu_items where RID = ".$restaurant['RID']."");
 }

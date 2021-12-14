@@ -1,0 +1,22 @@
+<?php
+    require_once ("../settings.php");
+    require_once(__ROOT__."/database.php");
+
+    echo "<pre>";
+    
+    if ($_POST["image"] == null) $_POST["image"] = "https://i1.wp.com/servedcatering.com/wp-content/uploads/2021/05/menu-item-placeholder.png?fit=607%2C400&ssl=1";
+    
+    print_r($_POST);
+    $restaurant["AID"] = $_POST["AID"];
+    $restaurant["RID"] = $_POST["RID"];
+    $restaurant["name"] = $_POST["name"];
+    $restaurant["image"] = $_POST["image"];
+    $restaurant["category"] = $_POST["category"];
+    $restaurant["phone"] = $_POST["phone"];
+    $restaurant["street"] = $_POST["street"];
+    $restaurant["city"] = $_POST["city"];
+    $restaurant["state"] = $_POST["state"];
+    $restaurant["zip"] = $_POST["zip"];
+
+    update_restaurant($db, $restaurant);
+    header('location: ./detail.php?id='.$restaurant['AID'].'');

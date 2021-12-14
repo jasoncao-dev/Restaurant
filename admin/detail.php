@@ -98,16 +98,27 @@
             <section style="margin-bottom: 2rem;">
                 <!-- Button trigger modal -->
                 <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#add-menu">
-                    Add to restaurant's menu
+                    Add new menu item
                 </button>
 
-                <!-- Modal -->
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#update-res">
+                    Update
+                </button>
+
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal"
+                    data-bs-target="#delete-res">
+                    Delete
+                </button>
+
+                <!-- Modal create new menu item -->
                 <div class="modal fade" id="add-menu" tabindex="-1" aria-labelledby="exampleModalLabel"
                     aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Add to restaunt's menu</h5>
+                                <h5 class="modal-title" id="exampleModalLabel">Add new menu item</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                     aria-label="Close"></button>
                             </div>
@@ -122,7 +133,8 @@
                                     </div>
                                     <!-- Image -->
                                     <div class="form-group mb-3">
-                                        <label for="image" class="form-label">Image (post a link for image or leave blank)</label>
+                                        <label for="image" class="form-label">Image (post a link for image or leave
+                                            blank)</label>
                                         <input type="text" class="form-control p-2-5 px-4 rounded-pill" name="image" />
                                     </div>
                                     <!-- Description -->
@@ -143,6 +155,172 @@
                                     <button type="button" class="btn btn-secondary"
                                         data-bs-dismiss="modal">Close</button>
                                     <button type="submit" class="btn btn-primary">Add</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal update restaurant -->
+                <div class="modal fade" id="update-res" tabindex="-1" aria-labelledby="exampleModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Update restaurant's information</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <form id="update-restaurant" class="account-create mt-3" action="update_restaurant.php"
+                                method="POST">
+                                <div class="modal-body">
+                                    <input type="hidden" name="AID" value="<?=$restaurant['AID']?>" />
+                                    <input type="hidden" name="RID" value="<?=$id?>" />
+                                    <!-- Name -->
+                                    <div class="form-group mb-3">
+                                        <label for="name" class="form-label">Name <span
+                                                class="text-danger">&ast;</span></label>
+                                        <input type="text" class="form-control p-2-5 px-4 rounded-pill" name="name"
+                                            value="<?=$restaurant['name']?>" required>
+                                    </div>
+                                    <!-- Image -->
+                                    <div class="form-group mb-3">
+                                        <label for="image" class="form-label">Image (post a link for image or leave
+                                            blank)</label>
+                                        <input type="text" class="form-control p-2-5 px-4 rounded-pill" name="image"
+                                            value="<?=$restaurant['image']?>" />
+                                    </div>
+                                    <!-- Category -->
+                                    <div class="form-group mb-3">
+                                        <label for="category" class="form-label">Category <span
+                                                class="text-danger">&ast;</span></label>
+                                        <input type="text" class="form-control p-2-5 px-4 rounded-pill" name="category"
+                                            value="<?=$restaurant['category']?>" required>
+                                    </div>
+                                    <!-- Phone number -->
+                                    <div class="form-group mb-3">
+                                        <label for="phone" class="form-label">Phone number <span
+                                                class="text-danger">&ast;</span></label>
+                                        <input type="text" class="form-control p-2-5 px-4 rounded-pill" name="phone"
+                                            value="<?=$restaurant['phone']?>" required />
+                                    </div>
+                                    <!-- Street -->
+                                    <div class="form-group mb-3">
+                                        <label for="street" class="form-label">Street Address <span
+                                                class="text-danger">&ast;</span></label>
+                                        <input type="text" class="form-control p-2-5 px-4 rounded-pill" name="street"
+                                            value="<?=$restaurant['street']?>" required />
+                                    </div>
+                                    <!-- City -->
+                                    <div class="form-group mb-3">
+                                        <label for="city" class="form-label">City <span
+                                                class="text-danger">&ast;</span></label>
+                                        <input type="text" class="form-control p-2-5 px-4 rounded-pill" name="city"
+                                            value="<?=$restaurant['city']?>" required />
+                                    </div>
+                                    <!-- State & Zipcode -->
+                                    <div class="form-group mb-3">
+                                        <div class="row g-2">
+                                            <div class="col-sm-6">
+                                                <label for="state" class="form-label">State <span
+                                                        class="text-danger">&ast;</span></label>
+                                                <select class="form-select p-2-5 px-4 rounded-pill" name="state"
+                                                    required>
+                                                    <option selected disabled value=""><?=$restaurant['state']?>
+                                                    </option>
+                                                    <option value="AL">Alabama</option>
+                                                    <option value="AK">Alaska</option>
+                                                    <option value="AZ">Arizona</option>
+                                                    <option value="AR">Arkansas</option>
+                                                    <option value="CA">California</option>
+                                                    <option value="CO">Colorado</option>
+                                                    <option value="CT">Connecticut</option>
+                                                    <option value="DE">Delaware</option>
+                                                    <option value="DC">District Of Columbia</option>
+                                                    <option value="FL">Florida</option>
+                                                    <option value="GA">Georgia</option>
+                                                    <option value="HI">Hawaii</option>
+                                                    <option value="ID">Idaho</option>
+                                                    <option value="IL">Illinois</option>
+                                                    <option value="IN">Indiana</option>
+                                                    <option value="IA">Iowa</option>
+                                                    <option value="KS">Kansas</option>
+                                                    <option value="KY">Kentucky</option>
+                                                    <option value="LA">Louisiana</option>
+                                                    <option value="ME">Maine</option>
+                                                    <option value="MD">Maryland</option>
+                                                    <option value="MA">Massachusetts</option>
+                                                    <option value="MI">Michigan</option>
+                                                    <option value="MN">Minnesota</option>
+                                                    <option value="MS">Mississippi</option>
+                                                    <option value="MO">Missouri</option>
+                                                    <option value="MT">Montana</option>
+                                                    <option value="NE">Nebraska</option>
+                                                    <option value="NV">Nevada</option>
+                                                    <option value="NH">New Hampshire</option>
+                                                    <option value="NJ">New Jersey</option>
+                                                    <option value="NM">New Mexico</option>
+                                                    <option value="NY">New York</option>
+                                                    <option value="NC">North Carolina</option>
+                                                    <option value="ND">North Dakota</option>
+                                                    <option value="OH">Ohio</option>
+                                                    <option value="OK">Oklahoma</option>
+                                                    <option value="OR">Oregon</option>
+                                                    <option value="PA">Pennsylvania</option>
+                                                    <option value="RI">Rhode Island</option>
+                                                    <option value="SC">South Carolina</option>
+                                                    <option value="SD">South Dakota</option>
+                                                    <option value="TN">Tennessee</option>
+                                                    <option value="TX">Texas</option>
+                                                    <option value="UT">Utah</option>
+                                                    <option value="VT">Vermont</option>
+                                                    <option value="VA">Virginia</option>
+                                                    <option value="WA">Washington</option>
+                                                    <option value="WV">West Virginia</option>
+                                                    <option value="WI">Wisconsin</option>
+                                                    <option value="WY">Wyoming</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <label for="zip" class="form-label">Zipcode <span
+                                                        class="text-danger">&ast;</span></label>
+                                                <input type="text" class="form-control p-2-5 px-4 rounded-pill"
+                                                    name="zip" value="<?=$restaurant['zip']?>" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-warning">Update</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Model delete restaurant -->
+                <!-- Modal -->
+                <div class="modal fade" id="delete-res" tabindex="-1" aria-labelledby="exampleModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Delete this restaurant</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <form id="update-restaurant" class="account-create mt-3" action="delete_restaurant.php"
+                                method="POST">
+                                <input type="hidden" name="AID" value="<?=$restaurant['AID']?>" />
+                                <input type="hidden" name="RID" value="<?=$id?>" />
+                                <div class="modal-body">
+                                    Are you sure that you want to delete this restaurant?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-danger">Delete</button>
                                 </div>
                             </form>
                         </div>
