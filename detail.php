@@ -1,6 +1,7 @@
 <?php
 include_once 'database.php';
 $id = $_GET['id'];
+session_start()
 ?>
 <?php $restaurant = display_restaurant_detail($db, $id);?>
 
@@ -30,22 +31,51 @@ $id = $_GET['id'];
 
 </head>
 
+<?php
+if($_SESSION['is_logged'] > 0){
+?>
 <body class="d-flex flex-column h-100">
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg py-1 navbar-light shadow-sm bg-white fixed-top">
-        <div class="container justify-content-space-between">
-            <a href="./index.php" class="navbar-brand">
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg py-1 navbar-light shadow-sm bg-white fixed-top">
+    <div class="container justify-content-space-between">
+        <a href="./index.php" class="navbar-brand">
             <!-- Logo Image -->
             <img src="./images/logo.png" width="45" alt="" class="d-inline-block align-middle mr-2">
             <!-- Logo Text -->
             <span class="fw-bolder text-color fs-4">FooDash</span>
-            </a>
-            <div>
-                <a href="./signup.php"><button class="btn btn-color rounded-pill px-3 p-2 text-light me-1">Sign Up</button></a>
-                <a href="./signin.php"><button class="btn btn-outline-color rounded-pill px-3 p-2">Sign In</button></a>
-            </div>
+        </a>
+        <div>
+            <a href="account.php"><svg class="me-1 img-thumbnail rounded-circle" style="max-width: 3rem; height: 3rem;" viewBox="-1.5 -1.5 8 8" xmlns="http://www.w3.org/2000/svg" fill="#ed151e"><rect x="0" y="0" width="1" height="1"></rect><rect x="0" y="3" width="1" height="1"></rect><rect x="0" y="4" width="1" height="1"></rect><rect x="1" y="0" width="1" height="1"></rect><rect x="1" y="1" width="1" height="1"></rect><rect x="1" y="2" width="1" height="1"></rect><rect x="1" y="3" width="1" height="1"></rect><rect x="2" y="0" width="1" height="1"></rect><rect x="2" y="1" width="1" height="1"></rect><rect x="2" y="2" width="1" height="1"></rect><rect x="2" y="3" width="1" height="1"></rect><rect x="2" y="4" width="1" height="1"></rect><rect x="4" y="0" width="1" height="1"></rect><rect x="4" y="3" width="1" height="1"></rect><rect x="4" y="4" width="1" height="1"></rect><rect x="3" y="0" width="1" height="1"></rect><rect x="3" y="1" width="1" height="1"></rect><rect x="3" y="2" width="1" height="1"></rect><rect x="3" y="3" width="1" height="1"></rect></svg></a>
+            <span style="font-size: 0.9rem;"><?=$_SESSION['name']?></span>
+            <a href="cart.php"><button class="btn btn-outline-color btn-lg rounded-circle ms-1" style="border: 0px; padding-left: 12px; padding-right: 12px;"><i class="fas fa-shopping-cart"></i></button></a>
+            <span style="font-size: 0.9rem;">Cart</span>
+            <a href="auth.php?a=signout"><button type="submit" class="btn btn-color text-light p-2-5 rounded-pill" name="action" value="signout">Sign out</button></a>
         </div>
-    </nav>
+    </div>
+</nav>
+<?php
+}
+else{
+?>
+<body class="d-flex flex-column h-100">
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg py-1 navbar-light shadow-sm bg-white fixed-top">
+    <div class="container justify-content-space-between">
+        <a href="./index.php" class="navbar-brand">
+            <!-- Logo Image -->
+            <img src="./images/logo.png" width="45" alt="" class="d-inline-block align-middle mr-2">
+            <!-- Logo Text -->
+            <span class="fw-bolder text-color fs-4">FooDash</span>
+        </a>
+        <div>
+            <a href="./signup.php"><button class="btn btn-color rounded-pill px-3 p-2 text-light me-1">Sign Up</button></a>
+            <a href="./signin.php"><button class="btn btn-outline-color rounded-pill px-3 p-2">Sign In</button></a>
+        </div>
+    </div>
+</nav>
+<?php
+}
+?>
 
     <!-- Cover-->
     <header class="cover" style="background-image: url('<?=$restaurant['image']?>')">

@@ -49,7 +49,13 @@ function display_menu($db, $id){
                             <h5 class="card-title"><?=$item['name']?></h5>
                             <p class="card-text mb-0"><?=$item['description']?></p>
                             <p class="card-text"><small class="text-muted"><?=$item['price']?></small></p>
-                            <button value="<?=$item['MID']?>" class="add-to-order btn btn-sm btn-color rounded-pill text-light">Add to order</button>
+                            <?php
+                                if($_SESSION['is_logged'] > 0){
+                                ?>
+                                    <a href="add_cart.php?mid=<?=$item['MID']?>&rid=<?=$id?>"><button value="<?=$item['MID']?>" class="add-to-order btn btn-sm btn-color rounded-pill text-light">Add to order</button></a>
+                                    <?php
+                                }
+                                    ?>
                         </div>
                     </div>
                 </div>
@@ -78,7 +84,8 @@ function display_menu_in_cart($db, $id){
     }
 }
 
-function display_restaurant_detail($db, $id) {
+function display_restaurant_detail($db, $id): array
+{
     $restaurant = $db->query('select name, category, AID, image from restaurants where RID = ' . $id);
     $r_temp = $restaurant->fetch();
     $r_address = $db->query('select street, city, state, zip, phone from address where AID = '.$r_temp['AID']);
@@ -101,7 +108,7 @@ function create_user($user_array, $db){
     print_r($user_array);
     echo '</pre>';
     echo "insert into address(AID, street, city, state, zip, phone) values(null, '".$user_array['street']."', '".$user_array['city']."', '".$user_array['state']."','".$user_array['zip']."', '".$user_array['phone']."')";
-    $db->query($db->query("insert into address(AID, street, city, state, zip, phone) values(null, '".$user_array['street']."', '".$user_array['city']."', '".$user_array['state']."','".$user_array['zip']."', '".$user_array['phone']."')"));
+    $db->query("insert into address(AID, street, city, state, zip, phone) values(null, '".$user_array['street']."', '".$user_array['city']."', '".$user_array['state']."','".$user_array['zip']."', '".$user_array['phone']."')");
     $AID = $db->lastInsertId();
     //$db->query("insert into auth(pid, password) values(null, '".$user_array['password']."')");
     //$PID = $db->lastInsertID();
@@ -112,20 +119,21 @@ function check_if_exists($db, $table, $element, $value): bool{
     //echo "select * from ".$table." where '".$element."' = '".$value."'";
     //die();
     $temp = $db->query("select * from ".$table." where ".$element." = '".$value."'");
-    $result = $temp->fetch();
+    $result = (array) $temp;
     return count($result) > 0;
 }
 
 function check_password($db, $email, $user_password): bool{
     $temp = $db->query("select password from users where email = '".$email."'");
-    $password = $temp->fetch();
+    $password = (array) $temp->fetch();
     print_r($password);
     if (password_verify($user_password, $password['password'])) {
         echo "Password is correct.";
+        return true;
     } else {
         echo "Password is not correct";
+        return false;
     }
-    return password_verify($user_password, $password['password']);
 }
 
 function get_name_by_email($db, $email): string {
@@ -152,22 +160,33 @@ function get_user($db, $uid) {
 }
 
 function check_is_admin($db, $uid): bool {
-    $temp = $db->query("select isAuth from users where uid = ".$uid."");
+    $temp = $db->query("select isAuth from users where uid = ".$uid);
     $user = $temp->fetch();
     if ($user['isAuth'] == 1) return true; else return false;
 }
 
 function checks_for_order($db, $UID): bool{
-    $order = $db->query("select count(1) from order_list where UID = '".$UID."' and is_complete = 0");
-    return($order->fetch('count') > 0);
+    $order = $db->query("select count(*) as num_orders from order_list where UID = '".$UID."' and is_complete = 0");
+    $num = $order->fetch();
+    return($num['num_orders'] > 0);
 }
 
-function get_oid($db, $UID):string {
-    $oid = $db->query("select OID from order_list where where UID = '".$UID."' and is_complete = 0");
-    return $oid->fetch('OID');
+function get_oid($db, $UID):int {
+    $oid = $db->query("select OID from order_list where UID = '".$UID."' and is_complete = 0");
+    $temp = $oid->fetch();
+    print_r($temp);
+    return (int)$temp['OID'];
 }
-function add_to_order($db, $MID, $number){
-    $db->query("insert into order_items(oid, mid, amount) VALUES ('".$_SESSION['OID']."', '".$MID."', '".$number."')");
+function add_to_order($db, $MID){
+    $count = $db->query("select count(*) as num from order_items where OID = '".$_SESSION['oid']."' and MID = '".$MID."'");
+    $temp = $count->fetch();
+    print_r($temp);
+    if($temp['num'] == 0){
+    $db->query("insert into order_items(OID, MID, amount) VALUES ('".$_SESSION['oid']."', '".$MID."', 1)");
+    }
+    else{
+        $db->query("update order_items set amount = amount + 1 where OID = '".$_SESSION['oid']."' and MID = '".$MID."'");
+    }
 }
 
 function create_oid($db, $UID): int{
@@ -175,15 +194,21 @@ function create_oid($db, $UID): int{
     return $db->lastInsertId();
 }
 
-function display_cart($db):array{
-    $cart = $db->query("select name, price, amount from order_items join menu_items mi on
-    order_items.MID = mi.MID and order_items.OID ='".$_SESSION['OID']."'");
-    return (array) $cart;
+function display_cart($db){
+    $cart = $db->query("select name, RID, image, price, amount from menu_items join order_items oi on menu_items.MID = oi.MID and OID ='".$_SESSION['oid']."'");
+    if($cart->rowCount() > 0){
+        $array = [];
+        while($item = $cart->fetch()){
+            $array[]=$item;
+        }
+        return $array;
+    }
+    else return null;
 }
 
 function close_order($db, $oid){
     $db->query("update order_list set is_complete = 1 where OID = '".$oid."'");
-    $_SESSION['OID'] = create_oid($db, $_SESSION['UID']);
+    $_SESSION['oid'] = create_oid($db, $_SESSION['uid']);
 }
 
 function get_aid($db): string{

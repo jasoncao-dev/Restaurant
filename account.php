@@ -1,6 +1,5 @@
 <?php
-    require_once ("../settings.php");
-    require_once(__ROOT__.'/database.php');
+    require_once('database.php');
     session_start();
     $id = $_GET['id'];
     if (count($_SESSION) == 0) {
@@ -29,11 +28,11 @@
     <link href="http://fonts.cdnfonts.com/css/apercu" rel="stylesheet">
 
     <!-- CSS -->
-    <link rel="stylesheet" type="text/css" href="../css/styles.css">
+    <link rel="stylesheet" type="text/css" href="css/styles.css">
 
     <!-- Title & Icon -->
     <title>FooDash - Food Delivery</title>
-    <link rel="icon" href="../images/icon.png" type="image/png">
+    <link rel="icon" href="images/icon.png" type="image/png">
 
 </head>
 
@@ -41,8 +40,8 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg py-1 navbar-light shadow-sm bg-white fixed-top">
         <div class="container justify-content-center">
-            <a href="./index.php" class="navbar-brand">
-            <img src="../images/logo.png" width="45" alt="" class="d-inline-block align-middle mr-2">
+            <a href="index.php" class="navbar-brand">
+            <img src="images/logo.png" width="45" alt="" class="d-inline-block align-middle mr-2">
             <span class="fw-bolder text-color fs-4">FooDash</span>
             </a>
         </div>
@@ -192,7 +191,7 @@
         <div class="container">
             <div class="d-flex align-items-center justify-content-center">
                 <a href="/" class="me-2 mb-0 align-items-center text-muted text-decoration-none lh-1">
-                        <img src="../images/logo.png" width="45" alt="" class="d-inline-block align-middle mr-2">
+                        <img src="images/logo.png" width="45" alt="" class="d-inline-block align-middle mr-2">
                         <span class="fw-bolder text-color">FooDash</span>
                 </a>
                 <span class="text-muted">© 2021 Company, Inc</span>

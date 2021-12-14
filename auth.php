@@ -2,6 +2,7 @@
 require_once("database.php");
 print_r($_POST);
 if ($_POST['action'] == 'signup') signup($db);
+elseif ($_GET['a']== 'signout') signout();
 else signin($db);
 
 function signup($db)
@@ -57,13 +58,21 @@ function signin($db) {
         //Start the session and send the user to the user's page
         session_start();
         $uid = get_uid($db, $_POST['email']);
+        if(checks_for_order($db, $uid)){$OID = get_oid($db,$uid);}
+        else{$OID = create_oid($db, $uid);}
         $isAdmin = check_is_admin($db, $uid);
         $_SESSION['name'] = get_name_by_email($db, $_POST['email']);
         $_SESSION['email'] = $_POST['email'];
         $_SESSION['uid'] = $uid;
+        $_SESSION['oid'] = $OID;
         $_SESSION['is_logged'] = true;
         $_SESSION['is_admin'] = $isAdmin;
-        if ($isAdmin) header('location: ./admin/index.php');
-        else header('location: ./user/index.php');
+        header('location: index.php');
     }
+}
+
+function signout(){
+session_start(); //to ensure you are using same session
+session_destroy(); //destroy the session
+header("location: index.php"); //to redirect back to "index.php" after logging out
 }
