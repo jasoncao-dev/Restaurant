@@ -318,3 +318,9 @@ function get_menu_item($db, $mid){
     $menu = $db->query("select * from menu_items where MID = ".(int)$mid );
     return $menu->fetch();
 }
+function delete_user($db, $uid){
+    $temp = $db->query("select AID from users where UID = ".$uid);
+    $aid = $temp->fetch();
+    $db->query("delete from users where UID = ".$uid);
+    $db->query("delete from address where AID = ".$aid);
+}

@@ -3,8 +3,10 @@
 <!-- Header -->
     <?php
         require_once('./themes/header.php');
-        if(count($_GET) > 0){
-            echo'<script> alert("Wrong Email or password")</script>';
+        if(count($_GET) > 0) {
+            if ($_GET['id'] == 1) {
+                echo '<script> alert("Wrong Email or password")</script>';
+            } else echo '<script> alert("Account with that email already exists please sign")</script>';
         }
     ?>
 

@@ -9,6 +9,15 @@ else signin($db);
 function signup($db)
 { //Format: name;username;password
 
+    if(count($_GET) > 0){
+        $uid = $_SESSION['uid'];
+        session_destroy();
+        delete_user($db, uid);
+    }
+    if(check_if_exists($db, 'users', 'email', $_POST['email'])){
+        header('location: signin.php?id=2');
+        die();
+    }
     // check if the email is valid
     if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) die(message('error', 'Your email is invalid. <a href="signin.php">click here<a/>'));
 
@@ -45,6 +54,7 @@ function signup($db)
 }
 
 function signin($db) {
+    
 
     if(check_if_exists($db, "users", "email", $_POST['email'] )) {
         //if($result->rowCount()==0

@@ -69,7 +69,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         
-            <form id="register" class="account-create mt-3" action="auth.php" method="POST">
+            <form id="register" class="account-create mt-3" action="../auth.php" method="POST">
                 <div class="row g-2">
                     <div class="col-sm-6 pe-2">
                         <h5 class="form-title">Personal Information</h5>
