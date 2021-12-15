@@ -152,10 +152,6 @@ function display_restaurant_detail($db, $id): array
 }
 
 function create_user($user_array, $db){
-    echo '<pre>';
-    print_r($user_array);
-    echo '</pre>';
-    echo "insert into address(AID, street, city, state, zip, phone) values(null, '".$user_array['street']."', '".$user_array['city']."', '".$user_array['state']."','".$user_array['zip']."', '".$user_array['phone']."')";
     $db->query("insert into address(AID, street, city, state, zip, phone) values(null, '".$user_array['street']."', '".$user_array['city']."', '".$user_array['state']."','".$user_array['zip']."', '".$user_array['phone']."')");
     $AID = $db->lastInsertId();
     //$db->query("insert into auth(pid, password) values(null, '".$user_array['password']."')");

@@ -3,6 +3,9 @@
 <!-- Header -->
     <?php
         require_once('./themes/header.php');
+        if(count($_GET) > 0){
+            echo'<script> alert("Wrong Email or password")</script>';
+        }
     ?>
 
     <!-- Main page -->

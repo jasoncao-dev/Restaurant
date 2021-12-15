@@ -45,30 +45,30 @@ function signup($db)
 }
 
 function signin($db) {
-    if(!check_if_exists($db, "users", "email", $_POST['email'] )) {
-        echo 'email is not registered';
-        die();
+
+    if(check_if_exists($db, "users", "email", $_POST['email'] )) {
+        //if($result->rowCount()==0
+        //$result->fetch()
+        if(check_password($db, $_POST['email'], $_POST['password'] )){
+            //Start the session and send the user to the user's page
+            session_start();
+            $uid = get_uid($db, $_POST['email']);
+            if(checks_for_order($db, $uid)){$OID = get_oid($db,$uid);}
+            else{$OID = create_oid($db, $uid);}
+            $isAdmin = check_is_admin($db, $uid);
+            $_SESSION['name'] = get_name_by_email($db, $_POST['email']);
+            $_SESSION['email'] = $_POST['email'];
+            $_SESSION['uid'] = $uid;
+            $_SESSION['oid'] = $OID;
+            $_SESSION['is_logged'] = true;
+            $_SESSION['is_admin'] = $isAdmin;
+            //die(json_encode(['status'=>1,'message'=>'Welcome']));
+            if ($isAdmin) header('location: ./admin/index.php');
+            else header('location: ./user/index.php');
+        }
+        else header('location: signin.php?id=1');
     }
-    if(!check_password($db, $_POST['email'], $_POST['password'] )){
-        echo "<div class='alert alert-danger'>Incorrect password</div>";
-        die();
-    }
-    else {
-        //Start the session and send the user to the user's page
-        session_start();
-        $uid = get_uid($db, $_POST['email']);
-        if(checks_for_order($db, $uid)){$OID = get_oid($db,$uid);}
-        else{$OID = create_oid($db, $uid);}
-        $isAdmin = check_is_admin($db, $uid);
-        $_SESSION['name'] = get_name_by_email($db, $_POST['email']);
-        $_SESSION['email'] = $_POST['email'];
-        $_SESSION['uid'] = $uid;
-        $_SESSION['oid'] = $OID;
-        $_SESSION['is_logged'] = true;
-        $_SESSION['is_admin'] = $isAdmin;
-        if ($isAdmin) header('location: ./admin/index.php');
-        else header('location: ./user/index.php');
-    }
+    else header('location: signin.php?id=1');
 }
 
 function signout(){

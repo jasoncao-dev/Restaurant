@@ -17,7 +17,7 @@ if(count($_POST) > 0){
     header('location: ./detail.php?id='.$_POST['id']);
 }
 $menu = get_menu_item($db, $_GET['mid']);
-print_r($_GET);
+//print_r($_GET);
 //print_r($menu)
 
 ?>

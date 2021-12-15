@@ -5,9 +5,9 @@ if (count($_SESSION) == 0 or $_SESSION['is_admin'] == 0) {
     $path = 'location: ../index.php';
     header($path);
 }
-    echo "<pre>";
+    //echo "<pre>";
     
-    print_r($_POST);
+    //print_r($_POST);
 
     $restaurant["AID"] = $_POST["AID"];
     $restaurant["RID"] = $_POST["RID"];
