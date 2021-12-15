@@ -4,10 +4,10 @@
     session_start();
     //echo '<pre>';
     //print_r($_SESSION);
-    if (count($_SESSION) == 0) {
-        $path = 'location: ../index.php';
-        header($path);
-    }
+if (count($_SESSION) == 0 or $_SESSION['is_admin'] == 0) {
+    $path = 'location: ../index.php';
+    header($path);
+}
     if ($_SESSION['is_logged'] == true) { //Prevent regular user to enter admin page
         if ($_SESSION['is_admin'] == false) {
             $path = 'location: ../user/index.php';

@@ -99,14 +99,17 @@ function display_menu_admin($db, $id){
                             <h5 class="card-title"><?=$item['name']?></h5>
                             <p class="card-text mb-0"><?=$item['description']?></p>
                             <p class="card-text"><small class="text-muted"><?=$item['price']?></small></p>
-                            <button class="btn btn-sm btn-warning rounded-pill">Update menu item</button>
-                            <button class="btn btn-sm btn-danger rounded-pill">Delete menu item</button>
+                            <a href="modify.php?mid=<?=$item['MID']?>"> <button class="btn btn-sm btn-warning rounded-pill">Update menu item</button></a>
+                           <a href="remove.php?mid=<?=$item['MID']?>"><button class="btn btn-sm btn-danger rounded-pill">Delete menu item</button></a>
                         </div>
                     </div>
                 </div>
             </div>
 <?php
     }
+    ?>
+
+        <?php
 }
 
 function display_menu_in_cart($db, $id){
@@ -255,44 +258,64 @@ function remove_item($db, $mid, $amount = null){
         $db->query("delete from order_items where MID = '".$mid."' and OID = '".$_SESSION['oid']."'");
     }
     else{
-        $db->query("update order_items set amount = amount - '".$amount."' where MID = '".$mid."' and OID = '".$_SESSION['oid']."'");
+        $db->query("update order_items set amount = amount - '".$amount."' where MID = '".$mid."' and OID = ".$_SESSION['oid']);
     }
 }
 function close_order($db, $oid){
-    $db->query("update order_list set is_complete = 1 where OID = '".$oid."'");
+    $db->query("update order_list set is_complete = 1 where OID = ".$oid);
     $_SESSION['oid'] = create_oid($db, $_SESSION['uid']);
 }
 
 function get_aid($db): string{
-    $aid = $db->query("select AID from users where UID = '".$_SESSION['UID']."'");
+    $aid = $db->query("select AID from users where UID = ".$_SESSION['UID']);
     return $aid->fetch('AID');
 }
 function update_user_address($db, $array){
     $db->query("update address set street = '".$array['street']."', city = '".$array['city']."', state = '".$array['state']."',
-     zip = '".$array['zip']."', phone = '".$array['phone']."' where AID = '".get_aid($db)."'");
+     zip = '".$array['zip']."', phone = '".$array['phone']."' where AID = ".get_aid($db));
 }
 
 function add_menu_item($db, $menu_item) {
     echo "<pre>";
     print_r($menu_item);
-    $db->query("insert into menu_items(mid, rid, name, description, price, image) values(null, ".$menu_item['rid'].",'".$menu_item['name']."', '".$menu_item['description']."', '".$menu_item['price']."', '".$menu_item['image']."')");
+    $db->query("insert into menu_items(mid, rid, name, description, price, image) values(null, ".$menu_item['rid'].",
+    '".$menu_item['name']."', '".$menu_item['description']."', '".$menu_item['price']."', '".$menu_item['image']."')");
 }
 
 function add_restaurant($db, $restaurant) {
     echo "<pre>";
-    $db->query("insert into address(AID, street, city, state, zip, phone) values(null, '".$restaurant['street']."', '".$restaurant['city']."', '".$restaurant['state']."','".$restaurant['zip']."', '".$restaurant['phone']."')");
+    $db->query("insert into address(AID, street, city, state, zip, phone) values(null, '".$restaurant['street']."', 
+    '".$restaurant['city']."', '".$restaurant['state']."','".$restaurant['zip']."', '".$restaurant['phone']."')");
     $aid = $db->lastInsertId();
-    echo "insert into restaurants(rid, name, category, aid, image) values(null, '".$restaurant['name']."','".$restaurant['category']."', ".$aid.", '".$restaurant['image']."')";
-    $db->query("insert into restaurants(rid, name, category, aid, image) values(null, '".$restaurant['name']."','".$restaurant['category']."', ".$aid.", '".$restaurant['image']."')");
+    echo "insert into restaurants(rid, name, category, aid, image) values(null, '".$restaurant['name']."',
+    '".$restaurant['category']."', ".$aid.", '".$restaurant['image']."')";
+    $db->query("insert into restaurants(rid, name, category, aid, image) values(null, '".$restaurant['name']."',
+    '".$restaurant['category']."', ".$aid.", '".$restaurant['image']."')");
 }
 
 function update_restaurant($db, $restaurant) {
-    $db->query("update address set street = '".$restaurant['street']."', city = '".$restaurant['city']."', state = '".$restaurant['state']."', zip = '".$restaurant['zip']."', phone = '".$restaurant['phone']."' where AID =".$restaurant['AID']."");
-    $db->query("update restaurants set name = '".$restaurant['name']."', category = '".$restaurant['category']."', image = '".$restaurant['image']."' where rid = ".$restaurant['RID']."");
+    $db->query("update address set street = '".$restaurant['street']."', city = '".$restaurant['city']."',
+     state = '".$restaurant['state']."', zip = '".$restaurant['zip']."', phone = '".$restaurant['phone']."' where 
+     AID =".$restaurant['AID']);
+    $db->query("update restaurants set name = '".$restaurant['name']."', category = '".$restaurant['category']."',
+     image = '".$restaurant['image']."' where rid = ".$restaurant['RID']);
 }
 
 function delete_restaurant($db, $restaurant) {
-    $db->query("delete from address where AID = ".$restaurant['AID']."");
-    $db->query("delete from restaurants where RID = ".$restaurant['RID']."");
-    $db->query("delete from menu_items where RID = ".$restaurant['RID']."");
+    $db->query("delete from address where AID = ".$restaurant['AID']);
+    $db->query("delete from restaurants where RID = ".$restaurant['RID']);
+    $db->query("delete from menu_items where RID = ".$restaurant['RID']);
+    $db->query("update order_list set is_complete = 1 where is_complete = 0");
+}
+function update_menu_item($db, $item){
+    $db->query("update menu_items set name = '".$item['name']."', description = '".$item['description']."',
+     price = ".$item['price'].", image = '".$item['image']."' where MID = ".$item['mid']);
+}
+function delete_menu_item($db, $mid){
+    $db->query("delete from menu_items where MID = ".$mid);
+    $db->query("delete from order_items where MID = ".$mid);
+}
+function get_menu_item($db, $mid){
+    $menu = $db->query("select * from menu_items where MID = ".(int)$mid );
+    return $menu->fetch();
 }

@@ -1,6 +1,10 @@
 <?php
     require_once ("../settings.php");
     require_once(__ROOT__."/database.php");
+if (count($_SESSION) == 0 or $_SESSION['is_admin'] == 0) {
+    $path = 'location: ../index.php';
+    header($path);
+}
 
     //if (isset($_POST)) header('location: ./index.php');
 

@@ -3,10 +3,10 @@
     require_once(__ROOT__.'/database.php');
     session_start();
     $id = $_GET['id'];
-    if (count($_SESSION) == 0) {
-        $path = 'location: ../index.php';
-        header($path);
-    }
+if (count($_SESSION) == 0 or $_SESSION['is_admin'] == 0) {
+    $path = 'location: ../index.php';
+    header($path);
+}
     $user_name = $_SESSION['name'];
     $restaurant = display_restaurant_detail($db, $id);
 ?>
