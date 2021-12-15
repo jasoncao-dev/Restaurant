@@ -2,7 +2,7 @@
 require_once ("../settings.php");
 require_once(__ROOT__."/database.php");
 session_start();
-$id = $_GET['id'];
+
 if (count($_SESSION) == 0 or $_SESSION['is_admin'] == 0) {
     $path = 'location: ../index.php';
     header($path);
@@ -14,10 +14,10 @@ if(count($_POST) > 0){
     $menu["image"] = $_POST["image"];
     $menu['mid'] = $_GET['mid'];
     update_menu_item($db, $menu);
-    header('location: index.php');
+    header('location: ./detail.php?id='.$_POST['id']);
 }
 $menu = get_menu_item($db, $_GET['mid']);
-//print_r($_GET);
+print_r($_GET);
 //print_r($menu)
 
 ?>
@@ -71,26 +71,28 @@ $menu = get_menu_item($db, $_GET['mid']);
 
             <form id="update_menu" class="account-create mt-3" action="modify.php?mid=<?=$_GET['mid']?>" method="POST">
                 <div class="row g-2">
-                    <div class="col-sm-6 pe-2">
+                    <div class="col-sm-12 pe-2">
                         <h5 class="form-title">Menu Information</h5>
-                        <!-- Full name -->
+                        <input type="hidden" value="<?=$_GET['id']?>" name="id"/>
+                        <!-- Menu name -->
                         <div class="form-group mb-3">
                                 <label for="name" class="form-label">Name <span class="text-danger">&ast;</span></label>
                                 <input type="text" class="form-control p-2-5 px-4 rounded-pill" name="name" required value="<?=$menu['name']?>">
                         </div>
-                        <!-- Email address -->
+                        <!-- Description -->
                         <div class="form-group mb-3">
                             <label for="description" class="form-label">Description <span class="text-danger">&ast;</span></label>
-                            <input type="text" class="form-control p-2-5 px-4 rounded-pill" name="description" required value="<?=$menu['description']?>"/>
+                            <textarea type="text" class="form-control p-2-5 px-4 rounded-pill" name="description" required value="<?=$menu['description']?>"></textarea>
                         </div>
-                        <!-- Password -->
+                        <!-- Price -->
                         <div class="form-group mb-3">
                             <label for="price" class="form-label">Price <span class="text-danger">&ast;</span></label>
                             <input type="text" class="form-control p-2-5 px-4 rounded-pill" name="price" required value="<?=$menu['price']?>"/>
                         </div>
+                        <!-- Image -->
                         <div class="form-group mb-3">
-                            <label for="img" class="form-label">Image <span class="text-danger">&ast;</span></label>
-                            <input type="text" class="form-control p-2-5 px-4 rounded-pill" name="image" value="<?=$menu['image']?>"/>
+                            <label for="img" class="form-label">Image (post a link for image)</label>
+                            <input type="text" class="form-control p-2-5 px-4 rounded-pill" name="image" value="<?=$menu['image']?>" required/>
                         </div>
                     </div>
                 </div>

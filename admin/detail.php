@@ -71,7 +71,9 @@ if (count($_SESSION) == 0 or $_SESSION['is_admin'] == 0) {
                         <rect x="3" y="3" width="1" height="1"></rect>
                     </svg></a>
                 <span style="font-size: 0.9rem;"><?=$user_name?></span>
-                <a href="../auth.php?a=signout"><button type="submit" class="btn btn-color text-light p-2-5 rounded-pill ms-2" name="action" value="signout">Sign out</button></a>
+                <a href="../auth.php?a=signout"><button type="submit"
+                        class="btn btn-color text-light p-2-5 rounded-pill ms-2" name="action" value="signout">Sign
+                        out</button></a>
             </div>
         </div>
     </nav>
@@ -93,10 +95,6 @@ if (count($_SESSION) == 0 or $_SESSION['is_admin'] == 0) {
                 </div>
             </section>
             <section style="margin-bottom: 2rem;">
-                <!-- Button trigger modal -->
-                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#add-menu">
-                    Add new menu item
-                </button>
 
                 <!-- Button trigger modal -->
                 <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#update-res">
@@ -104,8 +102,7 @@ if (count($_SESSION) == 0 or $_SESSION['is_admin'] == 0) {
                 </button>
 
                 <!-- Button trigger modal -->
-                <button type="button" class="btn btn-danger" data-bs-toggle="modal"
-                    data-bs-target="#delete-res">
+                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete-res">
                     Delete
                 </button>
 
@@ -316,7 +313,8 @@ if (count($_SESSION) == 0 or $_SESSION['is_admin'] == 0) {
                                     Are you sure that you want to delete this restaurant?
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Close</button>
                                     <button type="submit" class="btn btn-danger">Delete</button>
                                 </div>
                             </form>
@@ -324,9 +322,29 @@ if (count($_SESSION) == 0 or $_SESSION['is_admin'] == 0) {
                     </div>
                 </div>
             </section>
-            <section class="">
+            <section class="mb-5">
                 <h3 class="pb-2">Menu</h3>
                 <div class="row row-cols-1 row-cols-md-2 g-4">
+                    <div class="card mb-2" type="button" data-bs-toggle="modal" data-bs-target="#add-menu">
+                        <div class="row g-1">
+                            <div class="col-md-4">
+                                <img src="https://i1.wp.com/servedcatering.com/wp-content/uploads/2021/05/menu-item-placeholder.png?fit=607%2C400&ssl=1" class="img-fluid rounded-start menu-thumbnail" alt="...">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title">Add a new menu item</h5>
+                                    <p class="card-text text-muted pt-1 placeholder-glow">
+                                        <span class="placeholder col-7"></span>
+                                        <span class="placeholder col-4"></span>
+                                        <span class="placeholder col-4"></span>
+                                        <span class="placeholder col-6"></span>
+                                        <span class="placeholder col-3"></span>
+                                        <span class="placeholder col-5"></span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <?php display_menu_admin($db, $id);?>
                 </div>
             </section>

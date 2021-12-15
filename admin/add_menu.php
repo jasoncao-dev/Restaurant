@@ -1,14 +1,13 @@
 <?php
     require_once ("../settings.php");
     require_once(__ROOT__."/database.php");
-if (count($_SESSION) == 0 or $_SESSION['is_admin'] == 0) {
-    $path = 'location: ../index.php';
-    header($path);
-}
+
+    /*if (count($_SESSION) == 0 or $_SESSION['is_admin'] == 0) {
+        $path = 'location: ./index.php';
+        header($path);
+    }*/
 
     //if (isset($_POST)) header('location: ./index.php');
-
-    echo "<pre>";
     
     if ($_POST["image"] == null) $_POST["image"] = "https://i1.wp.com/servedcatering.com/wp-content/uploads/2021/05/menu-item-placeholder.png?fit=607%2C400&ssl=1";
     

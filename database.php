@@ -99,8 +99,8 @@ function display_menu_admin($db, $id){
                             <h5 class="card-title"><?=$item['name']?></h5>
                             <p class="card-text mb-0"><?=$item['description']?></p>
                             <p class="card-text"><small class="text-muted"><?=$item['price']?></small></p>
-                            <a href="modify.php?mid=<?=$item['MID']?>"> <button class="btn btn-sm btn-warning rounded-pill">Update menu item</button></a>
-                           <a href="remove.php?mid=<?=$item['MID']?>"><button class="btn btn-sm btn-danger rounded-pill">Delete menu item</button></a>
+                            <a href="modify.php?id=<?=$id?>&mid=<?=$item['MID']?>"> <button class="btn btn-sm btn-warning rounded-pill">Update menu item</button></a>
+                           <a href="remove.php?id=<?=$id?>&mid=<?=$item['MID']?>"><button class="btn btn-sm btn-danger rounded-pill">Delete menu item</button></a>
                         </div>
                     </div>
                 </div>
@@ -278,6 +278,9 @@ function update_user_address($db, $array){
 function add_menu_item($db, $menu_item) {
     echo "<pre>";
     print_r($menu_item);
+    echo "insert into menu_items(mid, rid, name, description, price, image) values(null, ".$menu_item['rid'].",
+    '".$menu_item['name']."', '".$menu_item['description']."', '".$menu_item['price']."', '".$menu_item['image']."')";
+    //die();
     $db->query("insert into menu_items(mid, rid, name, description, price, image) values(null, ".$menu_item['rid'].",
     '".$menu_item['name']."', '".$menu_item['description']."', '".$menu_item['price']."', '".$menu_item['image']."')");
 }
@@ -309,7 +312,7 @@ function delete_restaurant($db, $restaurant) {
 }
 function update_menu_item($db, $item){
     $db->query("update menu_items set name = '".$item['name']."', description = '".$item['description']."',
-     price = ".$item['price'].", image = '".$item['image']."' where MID = ".$item['mid']);
+     price = '".$item['price']."', image = '".$item['image']."' where MID = ".$item['mid']);
 }
 function delete_menu_item($db, $mid){
     $db->query("delete from menu_items where MID = ".$mid);

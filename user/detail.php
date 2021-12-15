@@ -80,7 +80,7 @@
                         <?=$restaurant['state']?> <?=$restaurant['zip']?></p>
                 </div>
             </section>
-            <section class="row">
+            <section class="row mb-5">
                 <div class="col-md-9">
                     <h3 class="pb-2">Menu</h3>
                     <div class="row row-cols-1 row-cols-md-2 g-4">
