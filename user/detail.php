@@ -9,6 +9,7 @@
     }
     $user_name = $_SESSION['name'];
     $restaurant = display_restaurant_detail($db, $id);
+    $cart = display_cart($db);
 ?>
 
 <!doctype html>
@@ -48,10 +49,17 @@
             <span class="fw-bolder text-color fs-4">FooDash</span>
             </a>
             <div>
-                <a href=""><svg class="me-1 img-thumbnail rounded-circle" style="max-width: 3rem; height: 3rem;" viewBox="-1.5 -1.5 8 8" xmlns="http://www.w3.org/2000/svg" fill="#ed151e"><rect x="0" y="0" width="1" height="1"></rect><rect x="0" y="3" width="1" height="1"></rect><rect x="0" y="4" width="1" height="1"></rect><rect x="1" y="0" width="1" height="1"></rect><rect x="1" y="1" width="1" height="1"></rect><rect x="1" y="2" width="1" height="1"></rect><rect x="1" y="3" width="1" height="1"></rect><rect x="2" y="0" width="1" height="1"></rect><rect x="2" y="1" width="1" height="1"></rect><rect x="2" y="2" width="1" height="1"></rect><rect x="2" y="3" width="1" height="1"></rect><rect x="2" y="4" width="1" height="1"></rect><rect x="4" y="0" width="1" height="1"></rect><rect x="4" y="3" width="1" height="1"></rect><rect x="4" y="4" width="1" height="1"></rect><rect x="3" y="0" width="1" height="1"></rect><rect x="3" y="1" width="1" height="1"></rect><rect x="3" y="2" width="1" height="1"></rect><rect x="3" y="3" width="1" height="1"></rect></svg></a>
+                <a href="./account.php?id=<?=$_SESSION['uid']?>"><svg class="me-1 img-thumbnail rounded-circle" style="max-width: 3rem; height: 3rem;" viewBox="-1.5 -1.5 8 8" xmlns="http://www.w3.org/2000/svg" fill="#ed151e"><rect x="0" y="0" width="1" height="1"></rect><rect x="0" y="3" width="1" height="1"></rect><rect x="0" y="4" width="1" height="1"></rect><rect x="1" y="0" width="1" height="1"></rect><rect x="1" y="1" width="1" height="1"></rect><rect x="1" y="2" width="1" height="1"></rect><rect x="1" y="3" width="1" height="1"></rect><rect x="2" y="0" width="1" height="1"></rect><rect x="2" y="1" width="1" height="1"></rect><rect x="2" y="2" width="1" height="1"></rect><rect x="2" y="3" width="1" height="1"></rect><rect x="2" y="4" width="1" height="1"></rect><rect x="4" y="0" width="1" height="1"></rect><rect x="4" y="3" width="1" height="1"></rect><rect x="4" y="4" width="1" height="1"></rect><rect x="3" y="0" width="1" height="1"></rect><rect x="3" y="1" width="1" height="1"></rect><rect x="3" y="2" width="1" height="1"></rect><rect x="3" y="3" width="1" height="1"></rect></svg></a>
                 <span style="font-size: 0.9rem;"><?=$user_name?></span>
-                <button id="cart" class="btn btn-outline-color btn-lg rounded-circle ms-1" style="border: 0px; padding-left: 12px; padding-right: 12px;"><i class="fas fa-shopping-cart"></i></button>
-                <span style="font-size: 0.9rem;">Cart</span>
+                <a href="./cart.php" class="text-decoration-none"><button class="btn btn-outline-color btn-lg rounded-circle position-relative ms-1" style="border: 0px; padding-left: 12px; padding-right: 12px;"><i class="fas fa-shopping-cart"></i>
+                    <?php
+                        if ($cart != null) {?>
+                            <span class="position-absolute top-10 start-90 translate-middle p-1 bg-danger border border-light rounded-circle" style="color: #ed151e;">
+                        <?php
+                    }?>
+                </button>
+                <span style="font-size: 0.9rem;" class="text-dark">Cart</span></a>
+                <a href="../auth.php?a=signout"><button type="submit" class="btn btn-color text-light p-2-5 rounded-pill ms-2" name="action" value="signout">Sign out</button></a>
             </div>
         </div>
     </nav>
@@ -65,9 +73,11 @@
         <div class="container">
             <section>
                 <div class="clearfix">
-                    <img src="<?=$restaurant['image']?>" class="img-thumbnail rounded-circle res-thumbnail float-start me-2">
+                    <img src="<?=$restaurant['image']?>"
+                        class="img-thumbnail rounded-circle res-thumbnail float-start me-2">
                     <h3 class="pt-2"><?=$restaurant['name']?></h3>
-                    <p class="card-text text-muted"><?=$restaurant['street']?>, <?=$restaurant['city']?>, <?=$restaurant['state']?> <?=$restaurant['zip']?></p>
+                    <p class="card-text text-muted"><?=$restaurant['street']?>, <?=$restaurant['city']?>,
+                        <?=$restaurant['state']?> <?=$restaurant['zip']?></p>
                 </div>
             </section>
             <section class="row">
@@ -78,12 +88,33 @@
                     </div>
                 </div>
                 <div class="col-md-3 ps-3">
-                    <h3 class="pb-2">My cart</h3>
-                    <span id="cart-text" class="text-muted fst-italic">There is nothing in your cart.</span>
-                    <?php display_menu_in_cart($db, $id); ?>
-                    <button id="checkout" class="btn btn-color text-light rounded-pill mx-auto mt-3">Check out</button>
+                    <h3 class="pb-2">Your cart</h3>
+                    <?php
+                        if ($cart == null) {
+                            ?><span id="cart-text" class="text-muted fst-italic">There is nothing in your cart.</span><?php
+                        } else {
+                            foreach($cart as $item) { ?>
+                                <div id="<?=$item['RID']?>" class="card mb-2">
+                                    <div class="row g-1">
+                                        <div class="col-md-4">
+                                            <img src="<?=$item['image']?>" class="img-fluid rounded-start menu-thumbnail" style="width: 8rem; height: 8rem;">
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="card-body">
+                                                <h5 class="card-title"><?=$item['name']?></h5>
+                                                <button class="btn btn-sm btn-color rounded-pill text-light"><?=$item['price']?></button>
+                                                <p class="card-text text-muted pt-1">x <?=$item['amount']?></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php
+                            }
+                        }
+                    ?>
+                    <a href="./cart.php"><button id="checkout" class="btn btn-color text-light rounded-pill mx-auto mt-3">Check out</button></a>
                 </div>
-                
+
             </section>
         </div>
     </main>
@@ -93,8 +124,8 @@
         <div class="container">
             <div class="d-flex align-items-center justify-content-center">
                 <a href="/" class="me-2 mb-0 align-items-center text-muted text-decoration-none lh-1">
-                        <img src="../images/logo.png" width="45" alt="" class="d-inline-block align-middle mr-2">
-                        <span class="fw-bolder text-color">FooDash</span>
+                    <img src="../images/logo.png" width="45" alt="" class="d-inline-block align-middle mr-2">
+                    <span class="fw-bolder text-color">FooDash</span>
                 </a>
                 <span class="text-muted">© 2021 Company, Inc</span>
             </div>
@@ -105,27 +136,27 @@
 
     <!-- Bootstrap Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
-        crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous">
+    </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
     <script>
-        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-            return new bootstrap.Tooltip(tooltipTriggerEl)
-        })
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl)
+    })
 
-        $('.add-to-order').on('click', function(event) {
-            $('#cart-text').addClass('d-none')
-            $(`#${event.target.value}`).removeClass('d-none');
-            $(`#${event.target.value}`).addClass('in-cart');
-        })
+    $('.add-to-order').on('click', function(event) {
+        $('#cart-text').addClass('d-none')
+        $(`#${event.target.value}`).removeClass('d-none');
+        $(`#${event.target.value}`).addClass('in-cart');
+    })
 
-        $('#checkout').on('click', function(event) {
-            
-        })
+    $('#checkout').on('click', function(event) {
+
+    })
     </script>
 </body>
+
 </html>
-
-

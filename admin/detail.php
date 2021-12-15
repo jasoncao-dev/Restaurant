@@ -71,10 +71,7 @@
                         <rect x="3" y="3" width="1" height="1"></rect>
                     </svg></a>
                 <span style="font-size: 0.9rem;"><?=$user_name?></span>
-                <button id="cart" class="btn btn-outline-color btn-lg rounded-circle ms-1"
-                    style="border: 0px; padding-left: 12px; padding-right: 12px;"><i
-                        class="fas fa-shopping-cart"></i></button>
-                <span style="font-size: 0.9rem;">Cart</span>
+                <a href="../auth.php?a=signout"><button type="submit" class="btn btn-color text-light p-2-5 rounded-pill ms-2" name="action" value="signout">Sign out</button></a>
             </div>
         </div>
     </nav>
@@ -107,7 +104,7 @@
                 </button>
 
                 <!-- Button trigger modal -->
-                <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal"
+                <button type="button" class="btn btn-danger" data-bs-toggle="modal"
                     data-bs-target="#delete-res">
                     Delete
                 </button>
@@ -330,7 +327,7 @@
             <section class="">
                 <h3 class="pb-2">Menu</h3>
                 <div class="row row-cols-1 row-cols-md-2 g-4">
-                    <?php display_menu($db, $id);?>
+                    <?php display_menu_admin($db, $id);?>
                 </div>
             </section>
         </div>

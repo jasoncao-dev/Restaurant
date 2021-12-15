@@ -1,6 +1,7 @@
 <?php
 require_once("database.php");
-print_r($_POST);
+require_once("./themes/header.php");
+require_once("./themes/footer.php");
 if ($_POST['action'] == 'signup') signup($db);
 elseif ($_GET['a']== 'signout') signout();
 else signin($db);
@@ -44,14 +45,12 @@ function signup($db)
 }
 
 function signin($db) {
-    echo "<pre>";
-    print_r($_POST);
     if(!check_if_exists($db, "users", "email", $_POST['email'] )) {
         echo 'email is not registered';
         die();
     }
     if(!check_password($db, $_POST['email'], $_POST['password'] )){
-        echo 'incorrect password';
+        echo "<div class='alert alert-danger'>Incorrect password</div>";
         die();
     }
     else {
@@ -67,12 +66,12 @@ function signin($db) {
         $_SESSION['oid'] = $OID;
         $_SESSION['is_logged'] = true;
         $_SESSION['is_admin'] = $isAdmin;
-        header('location: index.php');
+        if ($isAdmin) header('location: ./admin/index.php'); else header('location: ./user/index.php');
     }
 }
 
 function signout(){
-session_start(); //to ensure you are using same session
-session_destroy(); //destroy the session
-header("location: index.php"); //to redirect back to "index.php" after logging out
+    session_start(); //to ensure you are using same session
+    session_destroy(); //destroy the session
+    header("location: ./index.php"); //to redirect back to "index.php" after logging out
 }

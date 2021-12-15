@@ -78,10 +78,7 @@
                         <rect x="3" y="3" width="1" height="1"></rect>
                     </svg></a>
                 <span style="font-size: 0.9rem;"><?=$user_name?></span>
-                <button class="btn btn-outline-color btn-lg rounded-circle ms-1"
-                    style="border: 0px; padding-left: 12px; padding-right: 12px;"><i
-                        class="fas fa-shopping-cart"></i></button>
-                <span style="font-size: 0.9rem;">Cart</span>
+                <a href="../auth.php?a=signout"><button type="submit" class="btn btn-color text-light p-2-5 rounded-pill ms-2" name="action" value="signout">Sign out</button></a>
             </div>
         </div>
     </nav>
@@ -109,11 +106,6 @@
     <main class="flex-shrink-0 mb-5">
         <div class="container">
             <section class="p-5 pb-0">
-                <!-- Button trigger modal -->
-                <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#add-res">
-                    Add new restaurant
-                </button>
-
                 <!-- Modal add-res -->
                 <div class="modal fade" id="add-res" tabindex="-1" aria-labelledby="exampleModalLabel"
                     aria-hidden="true">
@@ -249,6 +241,24 @@
             <section class="p-5">
                 <h3 class="pb-2">Local Restaurants</h3>
                 <div class="row row-cols-1 row-cols-md-3 g-4">
+                    <div class="col">
+                        <div type="button" data-bs-toggle="modal" data-bs-target="#add-res">
+                            <div class="card h-100">
+                                <img src="https://i1.wp.com/servedcatering.com/wp-content/uploads/2021/05/menu-item-placeholder.png?fit=607%2C400&ssl=1" class="card-img-top">
+                                <div class="card-body">
+                                    <h5 class="card-title text-dark placeholder-glow">
+                                        Add new restaurant
+                                    </h5>
+                                    <p class="card-text text-muted pt-1 placeholder-glow">
+                                        <span class="placeholder col-7"></span>
+                                        <span class="placeholder col-4"></span>
+                                        <span class="placeholder col-4"></span>
+                                        <span class="placeholder col-6"></span>
+                                    </p>
+                                </div>
+                            </div>
+</div>
+                    </div>
                     <?php
                         display_restaurant_list($db);
                     ?>

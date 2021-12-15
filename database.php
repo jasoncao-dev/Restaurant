@@ -64,6 +64,51 @@ function display_menu($db, $id){
     }
 }
 
+function display_menu_visitor($db, $id){
+    $menu = $db->query('select MID, name, description, price, image from menu_items where RID = ' . $id);
+        while($item = $menu->fetch()) {?>
+            <div class="card mb-2" style="">
+                 <div class="row g-1">
+                    <div class="col-md-4">
+                        <img src="<?=$item['image']?>" class="img-fluid rounded-start menu-thumbnail" alt="...">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title"><?=$item['name']?></h5>
+                            <p class="card-text mb-0"><?=$item['description']?></p>
+                            <p class="card-text"><small class="text-muted"><?=$item['price']?></small></p>
+                            <a href="signin.php"><button class="add-to-order btn btn-sm btn-color rounded-pill text-light">Add to order</button></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+<?php
+    }
+}
+
+function display_menu_admin($db, $id){
+    $menu = $db->query('select MID, name, description, price, image from menu_items where RID = ' . $id);
+        while($item = $menu->fetch()) {?>
+            <div class="card mb-2" style="">
+                 <div class="row g-1">
+                    <div class="col-md-4">
+                        <img src="<?=$item['image']?>" class="img-fluid rounded-start menu-thumbnail" alt="...">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title"><?=$item['name']?></h5>
+                            <p class="card-text mb-0"><?=$item['description']?></p>
+                            <p class="card-text"><small class="text-muted"><?=$item['price']?></small></p>
+                            <button class="btn btn-sm btn-warning rounded-pill">Update menu item</button>
+                            <button class="btn btn-sm btn-danger rounded-pill">Delete menu item</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+<?php
+    }
+}
+
 function display_menu_in_cart($db, $id){
     $menu = $db->query('select MID, name, description, price, image from menu_items where RID = ' . $id);
         while($item = $menu->fetch()) {?>
@@ -182,7 +227,7 @@ function add_to_order($db, $MID){
     $temp = $count->fetch();
     print_r($temp);
     if($temp['num'] == 0){
-    $db->query("insert into order_items(OID, MID, amount) VALUES ('".$_SESSION['oid']."', '".$MID."', 1)");
+        $db->query("insert into order_items(OID, MID, amount) VALUES ('".$_SESSION['oid']."', '".$MID."', 1)");
     }
     else{
         $db->query("update order_items set amount = amount + 1 where OID = '".$_SESSION['oid']."' and MID = '".$MID."'");
