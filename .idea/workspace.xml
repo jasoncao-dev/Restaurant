@@ -4,16 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9348cfa3-028d-446d-b064-041501ab1f62" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/add_cart.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cart.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/check_out.php" afterDir="false" />
+    <list default="true" id="9348cfa3-028d-446d-b064-041501ab1f62" name="Changes" comment="lots of fixes and updates. cart has been created, and it works though it needs some style touches.">
+      <change afterPath="$PROJECT_DIR$/user/remove_cart_item.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/auth.php" beforeDir="false" afterPath="$PROJECT_DIR$/auth.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/database.php" beforeDir="false" afterPath="$PROJECT_DIR$/database.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/detail.php" beforeDir="false" afterPath="$PROJECT_DIR$/detail.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/index.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user/account.php" beforeDir="false" afterPath="$PROJECT_DIR$/account.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user/cart.php" beforeDir="false" afterPath="$PROJECT_DIR$/user/cart.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,6 +52,7 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/user/" />
       <recent name="$PROJECT_DIR$/" />
     </key>
   </component>
@@ -70,8 +67,17 @@
       <workItem from="1639152354200" duration="217000" />
       <workItem from="1639254664812" duration="757000" />
       <workItem from="1639447231999" duration="9871000" />
-      <workItem from="1639458501606" duration="6494000" />
+      <workItem from="1639458501606" duration="6961000" />
+      <workItem from="1639534312308" duration="3006000" />
     </task>
+    <task id="LOCAL-00001" summary="lots of fixes and updates. cart has been created, and it works though it needs some style touches.">
+      <created>1639465292573</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1639465292573</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -87,5 +93,9 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="lots of fixes and updates. cart has been created, and it works though it needs some style touches." />
+    <option name="LAST_COMMIT_MESSAGE" value="lots of fixes and updates. cart has been created, and it works though it needs some style touches." />
   </component>
 </project>

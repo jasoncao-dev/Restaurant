@@ -76,8 +76,8 @@
                                     <img src="<?=$item['image']?>" class="card-img-top">
                                     <div class="card-body">
                                         <h5 class="card-title text-dark"><?=$item['name']?></h5>
-                                        <button
-                                            class="btn btn-sm btn-color rounded-pill text-light"><?=$item['price']?></button>
+                                        <button class="btn btn-sm btn-color rounded-pill text-light"><?=$item['price']?></button>
+                                       <a href="remove_cart_item.php?mid=<?=$item['MID']?>"> <button class="btn btn-sm btn-color rounded-pill text-light">Remove Item</button></a>
                                         <p class="card-text text-muted pt-1">You have x <?=$item['amount']?> in your order</p>
                                     </div>
                                 </div>

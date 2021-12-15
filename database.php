@@ -240,7 +240,7 @@ function create_oid($db, $UID): int{
 }
 
 function display_cart($db){
-    $cart = $db->query("select name, RID, image, price, amount from menu_items join order_items oi on menu_items.MID = oi.MID and OID ='".$_SESSION['oid']."'");
+    $cart = $db->query("select name, RID, menu_items.MID, image, price, amount from menu_items join order_items oi on menu_items.MID = oi.MID and OID ='".$_SESSION['oid']."'");
     if($cart->rowCount() > 0){
         $array = [];
         while($item = $cart->fetch()){
@@ -250,7 +250,14 @@ function display_cart($db){
     }
     else return null;
 }
-
+function remove_item($db, $mid, $amount = null){
+    if($amount == null){
+        $db->query("delete from order_items where MID = '".$mid."' and OID = '".$_SESSION['oid']."'");
+    }
+    else{
+        $db->query("update order_items set amount = amount - '".$amount."' where MID = '".$mid."' and OID = '".$_SESSION['oid']."'");
+    }
+}
 function close_order($db, $oid){
     $db->query("update order_list set is_complete = 1 where OID = '".$oid."'");
     $_SESSION['oid'] = create_oid($db, $_SESSION['uid']);

@@ -66,7 +66,8 @@ function signin($db) {
         $_SESSION['oid'] = $OID;
         $_SESSION['is_logged'] = true;
         $_SESSION['is_admin'] = $isAdmin;
-        if ($isAdmin) header('location: ./admin/index.php'); else header('location: ./user/index.php');
+        if ($isAdmin) header('location: ./admin/index.php');
+        else header('location: ./user/index.php');
     }
 }
 
