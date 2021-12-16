@@ -1,6 +1,16 @@
 <?php
 include_once "database.php";
 session_start();
+if (count($_SESSION) != 0) {
+    if ($_SESSION['is_admin']) {
+        $path = 'location: ./admin/index.php';
+        header($path);
+    }
+    else if ($_SESSION['is_logged']) {
+        $path = 'location: ./user/index.php';
+        header($path);
+    }
+}
 ?>
 
 <!doctype html>
