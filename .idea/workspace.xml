@@ -4,11 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9348cfa3-028d-446d-b064-041501ab1f62" name="Changes" comment="it works synchronously fully now and i have commented out any print_r that are not needed">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="9348cfa3-028d-446d-b064-041501ab1f62" name="Changes" comment="fixed user sign up and account a bit more">
       <change beforePath="$PROJECT_DIR$/auth.php" beforeDir="false" afterPath="$PROJECT_DIR$/auth.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/database.php" beforeDir="false" afterPath="$PROJECT_DIR$/database.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/signin.php" beforeDir="false" afterPath="$PROJECT_DIR$/signin.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/user/account.php" beforeDir="false" afterPath="$PROJECT_DIR$/user/account.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -70,7 +68,7 @@
       <workItem from="1639458501606" duration="6961000" />
       <workItem from="1639534312308" duration="11088000" />
       <workItem from="1639606175962" duration="2858000" />
-      <workItem from="1639610610804" duration="2079000" />
+      <workItem from="1639610610804" duration="4318000" />
     </task>
     <task id="LOCAL-00001" summary="lots of fixes and updates. cart has been created, and it works though it needs some style touches.">
       <created>1639465292573</created>
@@ -93,7 +91,14 @@
       <option name="project" value="LOCAL" />
       <updated>1639609361582</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="fixed user sign up and account a bit more">
+      <created>1639612767696</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1639612767696</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -114,6 +119,7 @@
     <MESSAGE value="lots of fixes and updates. cart has been created, and it works though it needs some style touches." />
     <MESSAGE value="added remove item in cart" />
     <MESSAGE value="it works synchronously fully now and i have commented out any print_r that are not needed" />
-    <option name="LAST_COMMIT_MESSAGE" value="it works synchronously fully now and i have commented out any print_r that are not needed" />
+    <MESSAGE value="fixed user sign up and account a bit more" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed user sign up and account a bit more" />
   </component>
 </project>
