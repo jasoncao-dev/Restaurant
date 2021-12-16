@@ -152,36 +152,46 @@ function display_restaurant_detail($db, $id): array
 }
 
 function create_user($user_array, $db){
-    $db->query("insert into address(AID, street, city, state, zip, phone) values(null, '".$user_array['street']."', '".$user_array['city']."', '".$user_array['state']."','".$user_array['zip']."', '".$user_array['phone']."')");
+    $q = "insert into address(AID, street, city, state, zip, phone) values(null, ?, ?, ?, ?, ?)";
+    $var = $db->prepare($q);
+    $var->execute([$user_array['street'], $user_array['city'], $user_array['state'], $user_array['zip'], $user_array['phone']]);
     $AID = $db->lastInsertId();
     //$db->query("insert into auth(pid, password) values(null, '".$user_array['password']."')");
     //$PID = $db->lastInsertID();
-    $db->query("insert into users(uid, aid, password, name, email, isAuth) values(null, '".$AID."','".$user_array['password']."', '".$user_array['name']."', '".$user_array['email']."', 0)");
+    $x = "insert into users(uid, aid, password, name, email, isAuth) values(null, ?, ?, ?, ?, 0)";
+    $stmt = $db ->prepare($x);
+    $stmt->execute([$AID, $user_array['password'], $user_array['name'], $user_array['email']]);
 }
 
 function check_if_exists($db, $table, $element, $value): bool{
     //echo "select * from ".$table." where '".$element."' = '".$value."'";
     //die();
-    $temp = $db->query("select * from ".$table." where ".$element." = '".$value."'");
-    $result = (array) $temp;
-    return count($result) > 0;
+    $q = "select * from $table where $element = ? ";
+    $temp = $db->prepare($q);
+    $temp->execute([$value]);
+    $result = $temp->rowcount();
+    return $result > 0;
 }
 
 function check_password($db, $email, $user_password): bool{
-    $temp = $db->query("select password from users where email = '".$email."'");
-    $password = (array) $temp->fetch();
-    print_r($password);
+    $q = "select password from users where email = ?";
+    $temp = $db->prepare($q);
+    $temp->execute([$email]);
+    $password = $temp->fetch();
+    //print_r($password);
     if (password_verify($user_password, $password['password'])) {
-        echo "Password is correct.";
+        //echo "Password is correct.";
         return true;
     } else {
-        echo "Password is not correct";
+        //echo "Password is not correct";
         return false;
     }
 }
 
 function get_name_by_email($db, $email): string {
-    $temp = $db->query("select name from users where email = '".$email."'");
+    $q = "select name from users where email = ?";
+    $temp = $db->prepare($q);
+    $temp->execute([$email]);
     return $temp->fetch()['name'];
 }
 
@@ -262,13 +272,23 @@ function close_order($db, $oid){
     $_SESSION['oid'] = create_oid($db, $_SESSION['uid']);
 }
 
-function get_aid($db): string{
-    $aid = $db->query("select AID from users where UID = ".$_SESSION['UID']);
-    return $aid->fetch('AID');
+function get_aid($db): int{
+    $aid = $db->query("select AID from users where UID = ".$_SESSION['uid']);
+    $temp = $aid->fetch();
+    return (int)$temp;
 }
 function update_user_address($db, $array){
-    $db->query("update address set street = '".$array['street']."', city = '".$array['city']."', state = '".$array['state']."',
-     zip = '".$array['zip']."', phone = '".$array['phone']."' where AID = ".get_aid($db));
+    $aid = get_aid($db);
+    $q = "update address set street = ?, city = ?, state = ?, zip = ?, phone = ? where AID = ".$aid;
+    $temp = $db->prepare($q);
+    $temp->execute([$array['street'], $array['city'], $array['state'], $array['zip'], $array['phone']]);
+}
+
+function update_user($db, $array){
+    update_user_address($db, $array);
+    $q = "update users set password = ?, name = ?, email = ? where UID =".$_SESSION['uid'];
+    $temp = $db->prepare($q);
+    $temp->execute([$array['password'], $array['name'], $array['email']]);
 }
 
 function add_menu_item($db, $menu_item) {
