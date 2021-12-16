@@ -1,7 +1,7 @@
 <?php
 include_once 'database.php';
 $id = $_GET['id'];
-session_start()
+session_start();
 
 if (count($_SESSION) != 0) {
     if ($_SESSION['is_admin']) {
