@@ -4,6 +4,8 @@ It uses PHP and JS to run a site we call FooDash. when the site is first
 loaded the user is presented with the ability to see the restaurants and
 see what they have to offer but can not order from them. If someone attempts
 placing an order before signing in it will redirect them to the sign in page.
+ 
+the URL to reach the test site is: https://test-is-test123.herokuapp.com/
 
 ![](./screenshots/home_nolog.png)
 ![](./screenshots/detail_nolog.png)
