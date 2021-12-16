@@ -1,7 +1,7 @@
 <?php
 require_once("database.php");
-require_once("./themes/header.php");
-require_once("./themes/footer.php");
+//require_once("./themes/header.php");
+//require_once("./themes/footer.php");
 if ($_POST['action'] == 'signup') signup($db);
 elseif ($_GET['a']== 'signout') signout();
 else signin($db);
@@ -9,12 +9,8 @@ else signin($db);
 function signup($db)
 { //Format: name;username;password
 
-    if(count($_GET) > 0){
-        $uid = $_SESSION['uid'];
-        delete_user($db, $uid);
-        session_destroy();
-    }
-    elseif(check_if_exists($db, 'users', 'email', $_POST['email'])){
+    
+    if(check_if_exists($db, 'users', 'email', $_POST['email'])){
         header('location: signin.php?id=2');
         die();
     }
@@ -54,8 +50,6 @@ function signup($db)
 }
 
 function signin($db) {
-    
-
     if(check_if_exists($db, "users", "email", $_POST['email'] )) {
         //if($result->rowCount()==0
         //$result->fetch()
@@ -76,9 +70,11 @@ function signin($db) {
             if ($isAdmin) header('location: ./admin/index.php');
             else header('location: ./user/index.php');
         }
-        else header('location: signin.php?id=1');
+        else {
+            header('location: signin.php?id=1');
+        }
     }
-    else header('location: signin.php?id=1');
+    else header('location: signin.php?id=2');
 }
 
 function signout(){

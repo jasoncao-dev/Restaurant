@@ -1,13 +1,20 @@
 <?php
+include_once "database.php";
+session_start();
+if (count($_SESSION) != 0) {
+    if ($_SESSION['is_admin']) {
+        $path = 'location: ./admin/index.php';
+        header($path);
+    }
+    else if ($_SESSION['is_logged']) {
+        $path = 'location: ./user/index.php';
+        header($path);
+    }
+}
 ?>
 <!-- Header -->
     <?php
         require_once('./themes/header.php');
-        if(count($_GET) > 0) {
-            if ($_GET['id'] == 1) {
-                echo '<script> alert("Wrong Email or password")</script>';
-            } else echo '<script> alert("Account with that email already exists please sign")</script>';
-        }
     ?>
 
     <!-- Main page -->
@@ -17,6 +24,15 @@
             <section id="signin" class="container form-account-access justify-items-start p-5 bg-white shadow-sm" style="margin-top: 80px;">
                 <h3>Access your account</h3>
                 <p class="lead pt-1">Enter your credentials below</p>
+
+                <?php
+                    if(count($_GET) > 0) {
+                        if ($_GET['id'] == 1) {
+                            echo '<div id="message" class="alert alert-warning">Incorrect email or password.</div>';
+                        } else echo '<div id="message" class="alert alert-warning">This email is already registered. Please sign in.</div>';
+                    }       
+                ?>
+                
 
                 <div id="error-report" class="alert alert-warning alert-dismissible fade show d-none" role="alert">
                     <span id="error-log"></span>
@@ -42,47 +58,6 @@
                 <div class="text-center">
                     <p>Don't have an account?<br><a id="redirect" href="./signup.php"><button
                                 class="btn btn-link btn-create-account p-0">Register your account</button></p></a>
-                </div>
-            </section>
-            <section id="signup" class="container form-account-access my-5 justify-items-start d-none">
-                <h2 class="form-title">Register your account</h2>
-                <p class="lead pt-1 pb-3">Create your access credentials.</p>
-            
-                <div id="error-report" class="alert alert-warning alert-dismissible fade show d-none" role="alert">
-                    <span id="error-log"></span>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            
-                <form id="register" class="account-create mt-3">
-                    <div class="form-group mb-3">
-                        <label for="firstname" class="form-label">Full name <span class="text-danger">&ast;</span></label>
-                        <input type="text" class="form-control p-2-5 px-4 rounded-pill" name="name">
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="email" class="form-label">Email address <span class="text-danger">&ast;</span></label>
-                        <input type="email" class="form-control p-2-5 px-4 rounded-pill" name="email" placeholder="Enter your email address" required/>
-                        <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="email" class="form-label">Password <span class="text-danger">&ast;</span></label>
-                        <input type="password" class="form-control p-2-5 px-4 rounded-pill" name="password" placeholder="Enter your password" required/>
-                        <div class="form-text">Password should be at least 8 characters.</div>
-                    </div>
-                    <div class="form-group mb-3">
-                        <label class="form-label">
-                            <input type="checkbox" name="agree-term" class="form-check-input" required/>
-                            I agree will all
-                            <a href="" class="term-service text-main">Terms of Service</a>
-                            and <a href="" class="term-service text-main">Privacy Policies</a>.<span class="text-danger">&ast;</span>
-                        </label>
-                        
-                    </div>
-                    <div class="d-grid gap-2 col-7 mx-auto mb-3">
-                        <button type="submit" class="btn btn-primary p-2-5 rounded-pill" name="action" value="signup">Sign up</button>
-                    </div>
-                </form>
-                <div class="text-center">
-                    <p>Already registered? <a id="redirect" href="./signup.php"><button class="btn btn-link btn-access-account p-0">Access your account</button></a>
                 </div>
             </section>
         </div>
